@@ -1,49 +1,49 @@
-# Portfolio Website Design Document (v2)
+# Portfolio Website Design Document (v3 — Minimal Stack)
 
-> **Note for AI implementers:** This document is intentionally explicit and uses machine‑readable structures (tables, JSON-schema snippets, clear IDs) so that autonomous agents can convert it directly into code. All placeholder values follow `<kebab‑case>` naming for easy string replacement once the final resume data is available.
-
----
-
-## 1 · Purpose & Goals
-
-| Goal ID | Description                                                                                                  |
-| ------- | ------------------------------------------------------------------------------------------------------------ |
-| G‑1     | Present a single‑page portfolio that feels like a living Linux terminal (Hyprland window‑manager aesthetic). |
-| G‑2     | Showcase real‑world projects, work experience, skills, and education to recruiters.                          |
-| G‑3     | Keep bundle ≤ 200 kB gzipped and achieve Lighthouse ≥ 95 on Performance & Accessibility.                     |
-| G‑4     | Deploy seamlessly to GitHub Pages via `gh-pages` branch and CI workflow.                                     |
+> **Scope** · This document specifies *what* the portfolio site is and *how it should look & behave*. It deliberately omits any build or execution instructions so that downstream agents can decide the best implementation workflow.
 
 ---
 
-## 2 · Target Audience
+## 1 · Purpose & Goals
 
-- **Recruiters & Hiring Managers** looking to assess technical depth quickly.
-- **Developers / OSS maintainers** interested in collaboration.
-
----
-
-## 3 · Tech Stack
-
-| Layer     | Choice                                                                | Rationale                                                       |
-| --------- | --------------------------------------------------------------------- | --------------------------------------------------------------- |
-| Host      | **GitHub Pages**                                                      | Free, version‑controlled, custom domain, HTTPS.                 |
-| Build     | **Vite + React (TypeScript)**                                         | Fast HMR, tree‑shaking, JSX ergonomics; produces static assets. |
-| Styling   | **Tailwind CSS** + custom CSS vars                                    | Utility‑first, easy dark mode, JIT compiles only used classes.  |
-| Animation | **typed.js** (header typing), **framer‑motion** (section transitions) | Lightweight yet expressive.                                     |
-| Fonts     | **JetBrains Mono Nerd Font** (self‑host WOFF2)                        | Monospace aesthetic + Nerd icons.                               |
-| Icons     | Nerd glyphs, **lucide‑react**                                         | Feather‑style SVGs for consistency.                             |
-| Tooling   | ESLint, Prettier, Husky, Playwright (E2E)                             | Quality gates & tests.                                          |
-| CI/CD     | GitHub Actions (`pages-build-deployment`)                             | Auto‑deploy on push to `main`.                                  |
+| Goal ID | Description                                                                                        |
+| ------- | -------------------------------------------------------------------------------------------------- |
+|  G‑1    | Present a single‑page portfolio that feels like a live Linux terminal (Hyprland tiling aesthetic). |
+|  G‑2    | Showcase projects, work experience, skills, and education to technical recruiters at a glance.     |
+|  G‑3    | Keep total transferred size ≤ 200 kB gzipped and hit Lighthouse ≥ 95 (Perf & Accessibility).       |
+|  G‑4    | Host as a **purely static** site on GitHub Pages—no build pipeline or backend required.            |
 
 ---
 
-## 4 · Theming – Gruvbox Dark (Gogh variant)
+## 2 · Target Audience
 
-CSS variables defined in `` and consumed via Tailwind’s `theme.extend.colors`.
+* Hiring managers & recruiters evaluating technical depth.
+* Fellow developers browsing your work.
+
+---
+
+## 3 · Minimal Tech Stack
+
+| Layer      | Choice                                                                    | Rationale (fits G‑3 & G‑4)                                                |
+| ---------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Host       | **GitHub Pages**                                                          | Free, version‑controlled, HTTPS, custom domain.                           |
+| Markup     | **HTML5** (semantic)                                                      | Delivers static content without a framework.                              |
+| Style      | **CSS3** + **Tailwind CSS via CDN** (optional)                            | Utility classes with zero build step; easily removed if pure CSS desired. |
+| Script     | **Vanilla JS (ES6 modules)**                                              | Eliminates bundlers; can be inlined or loaded as single `app.js`.         |
+| Animations | `typed.js` (≈2.5 kB gz) for typewriter; CSS keyframes for fades/slide‑ins | Lightweight, no React/Framer required.                                    |
+| Fonts      | **JetBrains Mono Nerd Font** (`woff2` self‑host)                          | Monospace hacker aesthetic; Nerd icons baked‑in.                          |
+| Icons      | Nerd glyphs + minimal inline SVGs                                         | No heavy icon libraries.                                                  |
+
+*No build tools, transpilers, test frameworks, or CI pipelines are assumed.*
+
+---
+
+## 4 · Theming — Gruvbox Dark (Gogh variant)
+
+Define palette as CSS custom properties (can live in `<style>` or an external `theme.css`).
 
 ```css
 :root {
-  /* Gruvbox Dark (medium contrast) */
   --bg:        #1d2021; /* background */
   --bg-hl:     #282828; /* highlighted window */
   --fg:        #ebdbb2; /* primary text */
@@ -53,31 +53,32 @@ CSS variables defined in `` and consumed via Tailwind’s `theme.extend.colors`.
   --accent-red:#fb4934; /* red */
   --cursor:    var(--accent3);
 }
+body { background: var(--bg); color: var(--fg); font-family: 'JetBrains Mono', monospace; }
 ```
 
-- Dark‑mode only; `prefers-color-scheme` not needed but respected.
-- Hyper‑land‑style window borders use `--accent2`.
+* Dark‑mode only; `prefers-color-scheme` respected but not required.
+* Hyprland‑style 2 px window borders use `--accent2`.
 
 ---
 
-## 5 · Information Architecture & Required Content
+## 5 · Information Architecture & Required Content
 
-Each **Section** is a self‑contained React component (`<SectionWindow id="intro"/>`) and receives its data from a central JSON (see §6). All content *must* be supplied; leave empty arrays only when item count = 0.
+Each logical chunk is a `<section>` tagged with the **Section ID**. Content is fed from a `profile.json` (see §6), but may also be hard‑coded.
 
-| Section ID   | Terminal Label               | Required Fields                                                                                                        | Notes                                                                                           |
-| ------------ | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `intro`      | `$ whoami`                   | `full_name`, `tagline` (≤ 80 chars), `bio` (≤ 120 words), `location`                                                   | Typewriter animates `<full_name>` and `<tagline>`; cursor uses `--cursor`.                      |
-| `experience` | `$ history`                  | Array `jobs[]` → `{ title, company, location, start_date, end_date, bullets[] (≤5) }`                                  | Render reverse‑chronological; collapsible accordion per job.                                    |
-| `projects`   | `$ ls projects/`             | Array `projects[]` → `{ name, year, repo_url, live_url, stack[], summary (≤40 words), highlights[] (≤3), image_path }` | Responsive grid; hover flips card to show `highlights`.                                         |
-| `skills`     | `$ cat skills.txt`           | Object `{ languages[], frameworks[], tools[], devops[], cloud[] }`                                                     | Display as tag cloud with syntax‑highlight‑like colors (green=proficient, orange=intermediate). |
-| `education`  | `$ grep -i education resume` | Array `schools[]` → `{ degree, field, institution, location, grad_year, gpa? }`                                        | Minimal list.                                                                                   |
-| `contact`    | `$ ping me`                  | `email`, `linkedin_url`, `github_url`, `resume_pdf_url?`, `phone?`                                                     | Prompt‑style input; clicking copies `email`.                                                    |
+| Section ID   | Terminal Label               | Required Fields (from JSON)                                                                                    | Display Notes                                                                        |
+| ------------ | ---------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `intro`      | `$ whoami`                   | `full_name`, `tagline` (≤80 chars), `bio` (≤120 words), `location`                                             | `<h1>` typewriter for `full_name`; subtitle shows `tagline`; paragraph for `bio`.    |
+| `experience` | `$ history`                  | `jobs[]` → `{title, company, location, start_date, end_date, bullets[] (≤5)}`                                  | Reverse‑chronological list with collapsible details per job.                         |
+| `projects`   | `$ ls projects/`             | `projects[]` → `{name, year, repo_url, live_url, stack[], summary (≤40 words), highlights[] (≤3), image_path}` | Responsive grid; card flips on hover to show `highlights`.                           |
+| `skills`     | `$ cat skills.txt`           | `skills` object → `{languages[], frameworks[], tools[], devops[], cloud[]}`                                    | Render as tag cloud; color‑code proficiency (green = strong, orange = intermediate). |
+| `education`  | `$ grep -i education resume` | `schools[]` → `{degree, field, institution, location, grad_year, gpa?}`                                        | Simple list.                                                                         |
+| `contact`    | `$ ping me`                  | `contact` → `{email, linkedin_url, github_url, resume_pdf_url?, phone?}`                                       | Terminal‑style prompt; clicking email copies to clipboard and flashes `accent1`.     |
 
 ---
 
-## 6 · Content JSON Schema (for AI ingestion)
+## 6 · Content JSON Skeleton
 
-`src/data/profile.json` example skeleton:
+Agents can populate the following and inject into the page via `<script type="application/json" id="profile-data">` or fetch a separate file.
 
 ```json
 {
@@ -100,18 +101,18 @@ Each **Section** is a self‑contained React component (`<SectionWindow id="intr
       "name": "<project>",
       "year": 2025,
       "repo_url": "https://github.com/<user>/<repo>",
-      "live_url": "https://<project>.vercel.app",
-      "stack": ["React", "Node.js"],
+      "live_url": "https://<project>.github.io",
+      "stack": ["HTML", "CSS", "JS"],
       "summary": "<short>",
       "highlights": ["<feat1>", "<feat2>"],
-      "image_path": "/assets/<project>.webp"
+      "image_path": "assets/<project>.webp"
     }
   ],
   "skills": {
     "languages": ["Python", "TypeScript"],
-    "frameworks": ["React", "FastAPI"],
-    "tools": ["Docker", "Git"],
-    "devops": ["GitHub Actions"],
+    "frameworks": ["Tailwind"],
+    "tools": ["Git"],
+    "devops": [""],
     "cloud": ["AWS"]
   },
   "schools": [
@@ -128,95 +129,70 @@ Each **Section** is a self‑contained React component (`<SectionWindow id="intr
     "email": "<email>",
     "linkedin_url": "https://linkedin.com/in/<user>",
     "github_url": "https://github.com/<user>",
-    "resume_pdf_url": "/assets/resume.pdf"
+    "resume_pdf_url": "assets/resume.pdf"
   }
 }
 ```
 
-Agents should populate this JSON, import it, and pass props downward.
-
 ---
 
-## 7 · Layout & Interaction Design
+## 7 · Layout & Interaction Design
 
-- **Hyprland‑inspired tiling:** Each section is a pseudo‑window with 2 px border (`--accent2`), 8 px gap, subtle drop shadow.
-- **Scroll‑snap:** `scroll-snap-type: y mandatory;` on `<main>`; each window `scroll-snap-align: start;`.
-- **Fixed left nav (**``**):** List of section labels; uses `accent3` underline for active.
-- **Responsiveness:** Breakpoint `md` (768 px) collapses nav into hamburger in header.
+### Window Layout
 
-### Animation Spec
+* Sections are faux windows with 2 px border (`--accent2`) and 8 px gap.
+* `scroll-snap-type: y mandatory` on `<main>`; each window uses `scroll-snap-align: start`.
+* Fixed side nav on desktops; collapses to hamburger below 768 px.
 
-| Element                | Effect                              | Library         | Timing          |
-| ---------------------- | ----------------------------------- | --------------- | --------------- |
-| Headers (`h2`)         | Typewriter then solid cursor        | typed.js        | dynamic         |
-| Window mount           | Fade + translate‑Y                  | framer‑motion   | 0.45 s ease‑out |
-| ProjectCard hover      | flip‑right 3D                       | CSS perspective | 0.4 s           |
-| Links                  | underline grow                      | CSS             | 150 ms          |
-| prefers‑reduced‑motion | All transforms → `opacity:1` static |                 |                 |
+### Animation Catalogue
 
----
+| Element                    | Effect                               | Tech          | Duration |
+| -------------------------- | ------------------------------------ | ------------- | -------- |
+| Section headers (`h2`)     | Typewriter cursor blink              | typed.js      | dynamic  |
+| Section appear in viewport | Fade + translate‑Y                   | CSS keyframes | 450 ms   |
+| Project card hover         | 3D flip                              | CSS           | 400 ms   |
+| Inline links               | Underline‑grow on hover              | CSS           | 150 ms   |
+| `prefers-reduced-motion`   | All transforms disabled; opacity = 1 | CSS media     | —        |
 
-## 8 · Component List (directory structure)
+### HTML Skeleton (indicative)
 
+```html
+<body>
+  <nav id="side-nav" class="hidden md:block">
+    <ul>
+      <li><a href="#intro">$ whoami</a></li>
+      <li><a href="#experience">$ history</a></li>
+      <li><a href="#projects">$ ls projects/</a></li>
+      <li><a href="#skills">$ cat skills.txt</a></li>
+      <li><a href="#education">$ grep -i education resume</a></li>
+      <li><a href="#contact">$ ping me</a></li>
+    </ul>
+  </nav>
+
+  <main id="viewport">
+    <section id="intro" class="window">…</section>
+    <section id="experience" class="window">…</section>
+    <section id="projects" class="window">…</section>
+    <section id="skills" class="window">…</section>
+    <section id="education" class="window">…</section>
+    <section id="contact" class="window">…</section>
+  </main>
+</body>
 ```
-src/
- ├─ components/
- │   ├─ TerminalHeader.tsx
- │   ├─ NavPrompt.tsx
- │   ├─ SectionWindow.tsx
- │   ├─ ProjectCard.tsx
- │   ├─ SkillBadge.tsx
- │   └─ ContactPrompt.tsx
- ├─ data/
- │   └─ profile.json
- ├─ pages/
- │   └─ index.tsx
- └─ styles/
-     └─ theme.css
-```
 
 ---
 
-## 9 · Accessibility & SEO
+## 8 · Accessibility & SEO
 
-- Contrast ratios checked against Gruvbox palette (≥ 4.5:1).
-- All interactive elements reachable via keyboard.
-- Skip‑to‑content link at top for screen readers.
-- `aria-label` on icons & inputs.
-- SEO meta (`title`, `description`, OpenGraph, canonical). JSON‑LD Person schema.
-
----
-
-## 10 · Performance Budget & Tooling
-
-| Metric       | Target   | Notes                                                     |
-| ------------ | -------- | --------------------------------------------------------- |
-| LCP (mobile) | ≤ 2.0 s  | Optimize hero image; use `loading="lazy"`.                |
-| JS (gzip)    | ≤ 200 kB | Split vendor chunk; remove unused framer‑motion features. |
-| CLS          | 0        | Avoid layout shift via fixed image dims.                  |
-
-Add Playwright tests for nav focus order and contact copy‑to‑clipboard.
+* Ensure WCAG AA contrast using Gruvbox palette.
+* All interactive elements reachable via keyboard; visible focus rings.
+* Provide `aria-label` on nav links and icons.
+* Skip link `<a href="#intro" class="sr-only focus:not-sr-only">Skip to content</a>`.
+* Meta tags: `title`, `description`, OpenGraph, canonical.
+* JSON‑LD `Person` schema embedded for rich snippets.
 
 ---
-
-## 11 · Deployment
-
-1. `pnpm i`
-2. `pnpm build` → output `dist/`.
-3. GitHub Action copies `dist` to `gh-pages` branch.
-4. Configure repository → Pages → branch = `gh-pages`.
-
----
-
-## 12 · Future Enhancements (Backlog)
-
-| Pri | Item                            |
-| --- | ------------------------------- |
-|  P1 | Theme toggle (light Gruvbox).   |
-|  P2 | Blog engine via Markdown → MDX. |
-|  P3 | i18n (English / Spanish).       |
 
 ---
 
 **END OF DOCUMENT**
-
