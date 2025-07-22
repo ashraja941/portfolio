@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal Portfolio</title>
+  <meta name="description" content="Minimal portfolio site" />
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script defer type="module" src="app.js"></script>
+</head>
+<body>
+  <a href="#intro" class="sr-only focus:not-sr-only">Skip to content</a>
+  <nav id="side-nav" aria-label="Main Navigation">
+    <ul>
+      <li><a href="#intro">$ whoami</a></li>
+      <li><a href="#experience">$ history</a></li>
+      <li><a href="#projects">$ ls projects/</a></li>
+      <li><a href="#skills">$ cat skills.txt</a></li>
+      <li><a href="#education">$ grep -i education resume</a></li>
+      <li><a href="#contact">$ ping me</a></li>
+    </ul>
+  </nav>
+  <main id="viewport">
+    <section id="intro" class="window">
+      <h2 data-typed="$ whoami">$ whoami</h2>
+      <div id="intro-content"></div>
+    </section>
+    <section id="experience" class="window">
+      <h2 data-typed="$ history">$ history</h2>
+      <div id="experience-content"></div>
+    </section>
+    <section id="projects" class="window">
+      <h2 data-typed="$ ls projects/">$ ls projects/</h2>
+      <div id="projects-content"></div>
+    </section>
+    <section id="skills" class="window">
+      <h2 data-typed="$ cat skills.txt">$ cat skills.txt</h2>
+      <div id="skills-content"></div>
+    </section>
+    <section id="education" class="window">
+      <h2 data-typed="$ grep -i education resume">$ grep -i education resume</h2>
+      <div id="education-content"></div>
+    </section>
+    <section id="contact" class="window">
+      <h2 data-typed="$ ping me">$ ping me</h2>
+      <div id="contact-content"></div>
+    </section>
+  </main>
+
+  <script id="profile-data" type="application/json">
+    {
+      "full_name": "John Doe",
+      "tagline": "Creative Developer",
+      "bio": "Passionate about building minimalist and accessible web experiences.",
+      "location": "San Francisco, USA",
+      "jobs": [
+        {
+          "title": "Frontend Developer",
+          "company": "Tech Corp",
+          "location": "Remote",
+          "start_date": "2022-01",
+          "end_date": "Present",
+          "bullets": [
+            "Built accessible UI components",
+            "Optimized performance of web apps"
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "name": "Portfolio",
+          "year": 2025,
+          "repo_url": "https://github.com/johndoe/portfolio",
+          "live_url": "#",
+          "stack": ["HTML","CSS","JS"],
+          "summary": "A minimal static portfolio site.",
+          "highlights": ["Static hosting","Custom theming"],
+          "image_path": "assets/project.webp"
+        }
+      ],
+      "skills": {
+        "languages": ["HTML","CSS","JavaScript"],
+        "frameworks": ["Tailwind"],
+        "tools": ["Git"],
+        "devops": ["Docker"],
+        "cloud": ["AWS"]
+      },
+      "schools": [
+        {
+          "degree": "B.S.",
+          "field": "Computer Science",
+          "institution": "Example University",
+          "location": "Anytown, USA",
+          "grad_year": 2020
+        }
+      ],
+      "contact": {
+        "email": "john@example.com",
+        "linkedin_url": "https://linkedin.com/in/johndoe",
+        "github_url": "https://github.com/johndoe"
+      }
+    }
+  </script>
+</body>
+</html>
