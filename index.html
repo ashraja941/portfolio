@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio – Terminal Edition</title>
-  <!-- JetBrains Mono (served from jsdelivr Nerd Font split to stay light) -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link href="https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono@2.304/fonts/webfonts/JetBrainsMono[wght].woff2" rel="preload" as="font" type="font/woff2" crossorigin>
   <style>
@@ -47,13 +46,23 @@
     summary { cursor: pointer; font-weight: bold; }
 
     /* Projects grid */
-    #projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
-    .card { perspective: 1000px; }
-    .card-inner { position: relative; width: 100%; height: 170px; transition: transform .4s; transform-style: preserve-3d; cursor: pointer; }
-    .card:hover .card-inner { transform: rotateY(180deg); }
-    .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border: 1px solid var(--accent2); display: flex; align-items: center; justify-content: center; padding: .5rem; }
-    .card-front { background: var(--bg-hl); }
-    .card-back { background: var(--bg); transform: rotateY(180deg); font-size: .85rem; }
+    #projects-grid {
+      display: grid;
+      flex-grow: 1; /* Allows grid to fill the section's height */
+    }
+    .card {
+      background: var(--bg-hl);
+      border: 1px solid var(--accent2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    .card:hover {
+      background: var(--bg);
+      border-color: var(--accent3);
+    }
 
     /* Tag cloud */
     .tag { display: inline-block; padding: .2rem .4rem; margin: .15rem; border: 1px solid var(--accent2); border-radius: 4px; font-size: .85rem; }
@@ -63,6 +72,73 @@
     /* Contact */
     #contact a { color: var(--accent2); text-decoration: none; border-bottom: 1px dotted var(--accent2); }
     #contact a:hover { color: var(--accent3); }
+    
+    /* Project Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(29, 32, 33, 0.8);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s ease, visibility .3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: var(--bg-hl);
+      padding: 2rem;
+      border: 2px solid var(--accent2);
+      max-width: 700px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform .3s ease;
+    }
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+    .modal-close {
+      position: absolute;
+      top: .5rem;
+      right: 1rem;
+      font-size: 2rem;
+      color: var(--fg);
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .modal-close:hover {
+      color: var(--accent-red);
+    }
+    .modal-content img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+      border: 1px solid var(--accent2);
+    }
+    .modal-content h3 {
+      color: var(--accent1);
+      margin-top: 0;
+    }
+    .modal-content .links a {
+      color: var(--accent2);
+      margin-right: 1rem;
+    }
+    .modal-content .links a:hover {
+      color: var(--accent3);
+    }
+
 
     /* Responsive nav collapse */
     @media (max-width: 768px) {
@@ -75,10 +151,24 @@
 <body>
   <nav id="nav"></nav>
   <main>
-    <!-- Sections will be injected by JS -->
-  </main>
+    </main>
 
-  <!-- =================== Content Data JSON =================== -->
+  <div class="modal-overlay" id="project-modal">
+    <div class="modal-content">
+      <span class="modal-close" id="modal-close-btn">&times;</span>
+      <img src="" id="modal-img" alt="Project Image">
+      <h3 id="modal-title"></h3>
+      <p id="modal-summary"></p>
+      <div id="modal-stack"></div>
+      <h4>Highlights:</h4>
+      <ul id="modal-highlights"></ul>
+      <div class="links">
+        <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer">View Code</a>
+        <a id="modal-live-link" href="#" target="_blank" rel="noopener noreferrer">Live Site</a>
+      </div>
+    </div>
+  </div>
+
   <script type="application/json" id="profile-data">
   {
       "full_name": "Ashwin Raja Shanmuga Raja",
@@ -127,47 +217,52 @@
         {
           "name": "Automated Personal Assistant",
           "year": 2025,
-          "repo_url": "",
+          "repo_url": "https://github.com",
           "live_url": "",
           "stack": ["LangChain", "RAG", "LLMs"],
           "summary": "Multi-agent assistant for meeting scheduling and email summarization.",
-          "highlights": ["Built with LangChain and prompt-engineered agents"]
+          "highlights": ["Built with LangChain and prompt-engineered agents"],
+          "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Personal+Assistant"
         },
         {
           "name": "Outfit Recommendation System",
           "year": 2024,
-          "repo_url": "",
-          "live_url": "",
+          "repo_url": "https://github.com",
+          "live_url": "https://example.com",
           "stack": ["ResNet-50", "BERT", "Transformers"],
           "summary": "Fashion matcher with visual semantic embeddings and image features.",
-          "highlights": ["23% accuracy boost with transformer architecture"]
+          "highlights": ["23% accuracy boost with transformer architecture"],
+           "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Outfit+Recommender"
         },
         {
           "name": "Gemma-3B Text-to-SQL",
           "year": 2025,
-          "repo_url": "",
+          "repo_url": "https://github.com",
           "live_url": "",
           "stack": ["Gemma-3B", "Unsloth"],
           "summary": "Instruction-tuned text-to-SQL model for complex schema-aware queries.",
-          "highlights": ["Fine-tuned on 100k+ samples"]
+          "highlights": ["Fine-tuned on 100k+ samples"],
+          "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Text-to-SQL"
         },
         {
           "name": "Aggieland Art Trail",
           "year": 2023,
-          "repo_url": "",
-          "live_url": "",
+          "repo_url": "https://github.com",
+          "live_url": "https://example.com",
           "stack": ["React", "Firebase"],
           "summary": "Interactive art trail tracker for TAMU Visual Art Society.",
-          "highlights": ["Stamp-based achievement system"]
+          "highlights": ["Stamp-based achievement system"],
+          "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Art+Trail"
         },
         {
           "name": "Medium Auto Tagger",
           "year": 2023,
-          "repo_url": "",
+          "repo_url": "https://github.com",
           "live_url": "",
           "stack": ["Python", "JavaScript"],
           "summary": "Chrome extension for auto-tagging Medium posts using NLP.",
-          "highlights": ["Published on Edge Extension Store"]
+          "highlights": ["Published on Edge Extension Store"],
+          "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Auto+Tagger"
         }
       ],
       "skills": {
@@ -203,7 +298,6 @@
     }
   </script>
 
-  <!-- =================== Scripts =================== -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script>
     // ---------- Helper utilities ----------
@@ -216,19 +310,19 @@
 
     /** Build navigation & sections array */
     const sections = [
-      { id: 'intro',      label: '$ whoami' },
-      { id: 'experience', label: '$ history' },
-      { id: 'projects',   label: '$ ls projects/' },
-      { id: 'skills',     label: '$ cat skills.txt' },
-      { id: 'education',  label: '$ grep -i education resume' },
-      { id: 'contact',    label: '$ ping me' }
+      { id: 'about',      label: 'about' },
+      { id: 'skills',     label: 'skills' },
+      { id: 'experience', label: 'experience' },
+      { id: 'projects',   label: 'projects' },
+      { id: 'education',  label: 'education' },
+      { id: 'contact',    label: 'contact' }
     ];
 
     for (const {id, label} of sections) {
       // Nav links
       const a = document.createElement('a');
       a.href = `#${id}`;
-      a.textContent = label;
+      a.textContent = `$ ${label}`;
       nav.appendChild(a);
 
       // Section skeleton
@@ -237,28 +331,28 @@
       sec.className = 'fade';
       const headerLabel = document.createElement('div');
       headerLabel.className = 'label';
-      headerLabel.textContent = label;
+      headerLabel.textContent = `$ ${label}`;
       const h2 = document.createElement('h2');
-      h2.textContent = id;
+      h2.textContent = label;
       sec.append(headerLabel, h2);
       main.appendChild(sec);
     }
 
-    // ---------- Populate Intro ----------
-    $('#intro h2').remove(); // Remove default label, replace with Typed
+    // ---------- Populate About ----------
+    $('#about h2').remove();
     const nameEl = document.createElement('h1');
     nameEl.id = 'name-typed';
     nameEl.style.fontSize = '2rem';
-    $('#intro').prepend(nameEl);
+    $('#about').prepend(nameEl);
     new Typed('#name-typed', { strings: [data.full_name], typeSpeed: 42, showCursor: true, cursorChar: '_' });
 
     const tagline = document.createElement('p');
     tagline.textContent = data.tagline;
-    $('#intro').appendChild(tagline);
+    $('#about').appendChild(tagline);
 
     const bio = document.createElement('p');
     bio.textContent = data.bio;
-    $('#intro').appendChild(bio);
+    $('#about').appendChild(bio);
 
     // ---------- Populate Experience ----------
     const expSec = $('#experience');
@@ -278,47 +372,121 @@
     });
 
     // ---------- Populate Projects ----------
-        const projGrid = document.createElement('div');
-        projGrid.id = 'projects-grid';
-        $('#projects').appendChild(projGrid);
+    const projGrid = document.createElement('div');
+    projGrid.id = 'projects-grid';
+    $('#projects').appendChild(projGrid);
 
-        data.projects.forEach((p, index) => {
-          const card = document.createElement('div');
-          card.className = 'card';
-          card.style.transition = 'all 0.6s ease';
-          card.style.opacity = '0';
-          card.style.transform = 'scale(0.5)';
-          card.innerHTML = `
-            <div class="card-inner">
-              <div class="card-face card-front">
-                <div>
-                  <strong>${p.name}</strong><br/>
-                  <small>${p.year}</small>
-                </div>
-              </div>
-              <div class="card-face card-back">
-                <p>${p.summary}</p>
-                <ul>${p.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
-                <a href="${p.repo_url}" target="_blank">code</a>
-                ${p.live_url ? `| <a href="${p.live_url}" target="_blank">live</a>` : ''}
-              </div>
-            </div>`;
-          projGrid.appendChild(card);
+    const projects = data.projects;
+    const VIRTUAL_GRID_SIZE = 128;
 
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
+    projGrid.style.display = 'grid';
+    projGrid.style.gridTemplateColumns = `repeat(${VIRTUAL_GRID_SIZE}, 1fr)`;
+    projGrid.style.gridTemplateRows = `repeat(${VIRTUAL_GRID_SIZE}, 1fr)`;
 
-            if (index === 0) {
-              card.style.gridColumn = '1 / -1';
-            } else if (index % 2 === 1) {
-              card.style.gridColumn = 'span 1';
-              card.style.gridRow = '1';
+    let tiles = [];
+
+    const addProjectCard = (project, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.transition = 'grid-column 0.25s ease, grid-row 0.25s ease, opacity 0.25s ease';
+        card.style.opacity = '0';
+        card.style.margin = '0.5rem'; 
+        card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
+        projGrid.appendChild(card);
+        
+        card.addEventListener('click', () => openModal(project));
+
+        let newTile;
+        if (index === 0) {
+            newTile = { el: card, x: 0, y: 0, width: VIRTUAL_GRID_SIZE, height: VIRTUAL_GRID_SIZE };
+        } else {
+            let largestTile = tiles.reduce((a, b) => (a.width * a.height > b.width * b.height) ? a : b);
+            const splitVertical = largestTile.width >= largestTile.height;
+
+            if (splitVertical) {
+                largestTile.width /= 2;
+                newTile = { el: card, x: largestTile.x + largestTile.width, y: largestTile.y, width: largestTile.width, height: largestTile.height };
             } else {
-              card.style.gridRow = 'auto';
+                largestTile.height /= 2;
+                newTile = { el: card, x: largestTile.x, y: largestTile.y + largestTile.height, width: largestTile.width, height: largestTile.height };
             }
-          }, index * 400);
+        }
+        tiles.push(newTile);
+
+        tiles.forEach(tile => {
+            tile.el.style.gridColumn = `${tile.x + 1} / span ${tile.width}`;
+            tile.el.style.gridRow = `${tile.y + 1} / span ${tile.height}`;
         });
+
+        setTimeout(() => {
+            card.style.opacity = '1';
+        }, 50);
+    };
+
+    const projectSection = $('#projects');
+    const projectObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          projects.forEach((p, i) => {
+              setTimeout(() => {
+                  addProjectCard(p, i);
+              }, i * 350);
+          });
+          observer.unobserve(projectSection);
+        }
+      });
+    }, { threshold: 0.25 }); 
+
+    projectObserver.observe(projectSection);
+    
+    // ---------- Modal Logic ----------
+    const modal = $('#project-modal');
+    const openModal = (project) => {
+      $('#modal-img').src = project.image_url;
+      $('#modal-title').textContent = project.name;
+      $('#modal-summary').textContent = project.summary;
+      
+      const stackContainer = $('#modal-stack');
+      stackContainer.innerHTML = ''; // Clear previous tags
+      project.stack.forEach(tech => {
+        const tag = document.createElement('span');
+        tag.className = 'tag medium';
+        tag.textContent = tech;
+        stackContainer.appendChild(tag);
+      });
+      
+      const highlightsList = $('#modal-highlights');
+      highlightsList.innerHTML = ''; // Clear previous highlights
+      project.highlights.forEach(highlight => {
+        const li = document.createElement('li');
+        li.textContent = highlight;
+        highlightsList.appendChild(li);
+      });
+      
+      $('#modal-repo-link').href = project.repo_url;
+      const liveLink = $('#modal-live-link');
+      if (project.live_url) {
+        liveLink.href = project.live_url;
+        liveLink.style.display = 'inline-block';
+      } else {
+        liveLink.style.display = 'none';
+      }
+      
+      modal.classList.add('active');
+    };
+    
+    const closeModal = () => {
+      modal.classList.remove('active');
+    };
+
+    $('#modal-close-btn').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
     // ---------- Populate Skills ----------
     const skillsSec = $('#skills');
     const skillCats = Object.entries(data.skills);
@@ -345,11 +513,23 @@
     // ---------- Populate Contact ----------
     const contactSec = $('#contact');
     const c = data.contact;
-    contactSec.innerHTML += `<p>Email: <a href="mailto:${c.email}" id="email-link">${c.email}</a></p>`;
-    contactSec.innerHTML += `<p><a href="${c.linkedin_url}" target="_blank">LinkedIn</a> • <a href="${c.github_url}" target="_blank">GitHub</a></p>`;
-    if (c.resume_pdf_url) contactSec.innerHTML += `<p><a href="${c.resume_pdf_url}" target="_blank">Download Résumé ↗</a></p>`;
 
-    // Copy‑to‑clipboard on email click
+    // Add the new introductory paragraph
+    const introParagraph = document.createElement('p');
+    introParagraph.textContent = "Thanks for visiting my portfolio! I’m always excited to connect with people who share a passion for technology, AI, or building meaningful products. Whether you have an opportunity, want to collaborate, or just want to say hello — feel free to reach out. I’m happy to chat about projects, ideas, or anything tech!";
+    introParagraph.style.marginBottom = '2rem';
+    contactSec.appendChild(introParagraph);
+
+    // Add the contact links
+    const linksContainer = document.createElement('div');
+    linksContainer.innerHTML = `
+        <p>Email: <a href="mailto:${c.email}" id="email-link">${c.email}</a></p>
+        <p><a href="${c.linkedin_url}" target="_blank">LinkedIn</a> • <a href="${c.github_url}" target="_blank">GitHub</a></p>
+        ${c.resume_pdf_url ? `<p><a href="${c.resume_pdf_url}" target="_blank">Download Résumé ↗</a></p>` : ''}
+    `;
+    contactSec.appendChild(linksContainer);
+
+    // ---------- Event Listeners ----------
     $('#email-link').addEventListener('click', e => {
       e.preventDefault();
       navigator.clipboard.writeText(c.email).then(() => {
@@ -358,21 +538,32 @@
         setTimeout(() => (e.target.textContent = old), 1500);
       });
     });
+    
+    $$('nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        $(targetId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
 
-    // ---------- Intersection Observer for fade‑in ----------
+    // ---------- Intersection Observers ----------
     const io = new IntersectionObserver(entries => {
       entries.forEach(ent => ent.isIntersecting && ent.target.classList.add('visible'));
     }, { threshold: .15 });
     $$('.fade').forEach(el => io.observe(el));
 
-    // ---------- Scroll spy ----------
     const spy = new IntersectionObserver(entries => {
       entries.forEach(ent => {
-        const link = nav.querySelector(`a[href="#${ent.target.id}"]`);
-        if (ent.intersectionRatio > .5) link.classList.add('active'); else link.classList.remove('active');
+        if (ent.isIntersecting) {
+            const link = nav.querySelector(`a[href="#${ent.target.id}"]`);
+            $$('nav a').forEach(a => a.classList.remove('active'));
+            if(link) link.classList.add('active');
+        }
       });
-    }, { threshold: .5 });
+    }, { rootMargin: '-50% 0px -50% 0px' });
     sections.forEach(({id}) => spy.observe($('#' + id)));
+
   </script>
 </body>
 </html>
