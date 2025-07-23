@@ -48,7 +48,7 @@
     /* Projects grid */
     #projects-grid {
       display: grid;
-      flex-grow: 1; /* Allows grid to fill the section's height */
+      flex-grow: 1; 
     }
     .card {
       background: var(--bg-hl);
@@ -58,6 +58,7 @@
       justify-content: center;
       cursor: pointer;
       transition: background .2s, border-color .2s;
+      min-height: 150px; /* Set a min-height for mobile cards */
     }
     .card:hover {
       background: var(--bg);
@@ -319,13 +320,11 @@
     ];
 
     for (const {id, label} of sections) {
-      // Nav links
       const a = document.createElement('a');
       a.href = `#${id}`;
       a.textContent = `$ ${label}`;
       nav.appendChild(a);
 
-      // Section skeleton
       const sec = document.createElement('section');
       sec.id = id;
       sec.className = 'fade';
@@ -375,25 +374,45 @@
     const projGrid = document.createElement('div');
     projGrid.id = 'projects-grid';
     $('#projects').appendChild(projGrid);
-
     const projects = data.projects;
-    const VIRTUAL_GRID_SIZE = 128;
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    
+    // General fade-in observer for sections and mobile project cards
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(ent => ent.isIntersecting && ent.target.classList.add('visible'));
+    }, { threshold: .15 });
 
-    projGrid.style.display = 'grid';
-    projGrid.style.gridTemplateColumns = `repeat(${VIRTUAL_GRID_SIZE}, 1fr)`;
-    projGrid.style.gridTemplateRows = `repeat(${VIRTUAL_GRID_SIZE}, 1fr)`;
+    if (isMobile) {
+      // --- MOBILE: Simple vertical layout ---
+      projGrid.style.display = 'grid';
+      projGrid.style.gridTemplateColumns = '1fr';
+      projGrid.style.gap = '1rem';
 
-    let tiles = [];
+      projects.forEach(project => {
+        const card = document.createElement('div');
+        card.className = 'card fade'; // Use the fade-in-on-scroll effect
+        card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
+        card.addEventListener('click', () => openModal(project));
+        projGrid.appendChild(card);
+        io.observe(card); // Watch this card to fade it in
+      });
 
-    const addProjectCard = (project, index) => {
+    } else {
+      // --- DESKTOP: Tiling animation ---
+      const VIRTUAL_GRID_SIZE = 128;
+      projGrid.style.display = 'grid';
+      projGrid.style.gridTemplateColumns = `repeat(${VIRTUAL_GRID_SIZE}, 1fr)`;
+      projGrid.style.gridTemplateRows = `repeat(${VIRTUAL_GRID_SIZE}, 1fr)`;
+      let tiles = [];
+
+      const addProjectCard = (project, index) => {
         const card = document.createElement('div');
         card.className = 'card';
         card.style.transition = 'grid-column 0.25s ease, grid-row 0.25s ease, opacity 0.25s ease';
         card.style.opacity = '0';
-        card.style.margin = '0.5rem'; 
+        card.style.margin = '0.5rem';
         card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
         projGrid.appendChild(card);
-        
         card.addEventListener('click', () => openModal(project));
 
         let newTile;
@@ -402,7 +421,6 @@
         } else {
             let largestTile = tiles.reduce((a, b) => (a.width * a.height > b.width * b.height) ? a : b);
             const splitVertical = largestTile.width >= largestTile.height;
-
             if (splitVertical) {
                 largestTile.width /= 2;
                 newTile = { el: card, x: largestTile.x + largestTile.width, y: largestTile.y, width: largestTile.width, height: largestTile.height };
@@ -412,32 +430,26 @@
             }
         }
         tiles.push(newTile);
-
         tiles.forEach(tile => {
             tile.el.style.gridColumn = `${tile.x + 1} / span ${tile.width}`;
             tile.el.style.gridRow = `${tile.y + 1} / span ${tile.height}`;
         });
+        setTimeout(() => card.style.opacity = '1', 50);
+      };
 
-        setTimeout(() => {
-            card.style.opacity = '1';
-        }, 50);
-    };
-
-    const projectSection = $('#projects');
-    const projectObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          projects.forEach((p, i) => {
-              setTimeout(() => {
-                  addProjectCard(p, i);
-              }, i * 350);
-          });
-          observer.unobserve(projectSection);
-        }
-      });
-    }, { threshold: 0.25 }); 
-
-    projectObserver.observe(projectSection);
+      const projectSection = $('#projects');
+      const projectObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            projects.forEach((p, i) => {
+              setTimeout(() => addProjectCard(p, i), i * 350);
+            });
+            observer.unobserve(projectSection);
+          }
+        });
+      }, { threshold: 0.25 });
+      projectObserver.observe(projectSection);
+    }
     
     // ---------- Modal Logic ----------
     const modal = $('#project-modal');
@@ -447,7 +459,7 @@
       $('#modal-summary').textContent = project.summary;
       
       const stackContainer = $('#modal-stack');
-      stackContainer.innerHTML = ''; // Clear previous tags
+      stackContainer.innerHTML = '';
       project.stack.forEach(tech => {
         const tag = document.createElement('span');
         tag.className = 'tag medium';
@@ -456,7 +468,7 @@
       });
       
       const highlightsList = $('#modal-highlights');
-      highlightsList.innerHTML = ''; // Clear previous highlights
+      highlightsList.innerHTML = '';
       project.highlights.forEach(highlight => {
         const li = document.createElement('li');
         li.textContent = highlight;
@@ -471,23 +483,15 @@
       } else {
         liveLink.style.display = 'none';
       }
-      
       modal.classList.add('active');
     };
     
-    const closeModal = () => {
-      modal.classList.remove('active');
-    };
-
+    const closeModal = () => modal.classList.remove('active');
     $('#modal-close-btn').addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    });
+    modal.addEventListener('click', e => e.target === modal && closeModal());
+    document.addEventListener('keydown', e => e.key === 'Escape' && closeModal());
 
-    // ---------- Populate Skills ----------
+    // ---------- Populate Skills, Education, Contact ----------
     const skillsSec = $('#skills');
     const skillCats = Object.entries(data.skills);
     skillCats.forEach(([cat, arr]) => {
@@ -502,7 +506,6 @@
       skillsSec.appendChild(div);
     });
 
-    // ---------- Populate Education ----------
     const eduSec = $('#education');
     data.schools.forEach(s => {
       const p = document.createElement('p');
@@ -510,23 +513,14 @@
       eduSec.appendChild(p);
     });
 
-    // ---------- Populate Contact ----------
     const contactSec = $('#contact');
     const c = data.contact;
-
-    // Add the new introductory paragraph
     const introParagraph = document.createElement('p');
     introParagraph.textContent = "Thanks for visiting my portfolio! I’m always excited to connect with people who share a passion for technology, AI, or building meaningful products. Whether you have an opportunity, want to collaborate, or just want to say hello — feel free to reach out. I’m happy to chat about projects, ideas, or anything tech!";
     introParagraph.style.marginBottom = '2rem';
     contactSec.appendChild(introParagraph);
-
-    // Add the contact links
     const linksContainer = document.createElement('div');
-    linksContainer.innerHTML = `
-        <p>Email: <a href="mailto:${c.email}" id="email-link">${c.email}</a></p>
-        <p><a href="${c.linkedin_url}" target="_blank">LinkedIn</a> • <a href="${c.github_url}" target="_blank">GitHub</a></p>
-        ${c.resume_pdf_url ? `<p><a href="${c.resume_pdf_url}" target="_blank">Download Résumé ↗</a></p>` : ''}
-    `;
+    linksContainer.innerHTML = `<p>Email: <a href="mailto:${c.email}" id="email-link">${c.email}</a></p><p><a href="${c.linkedin_url}" target="_blank">LinkedIn</a> • <a href="${c.github_url}" target="_blank">GitHub</a></p>${c.resume_pdf_url ? `<p><a href="${c.resume_pdf_url}" target="_blank">Download Résumé ↗</a></p>` : ''}`;
     contactSec.appendChild(linksContainer);
 
     // ---------- Event Listeners ----------
@@ -548,9 +542,6 @@
     });
 
     // ---------- Intersection Observers ----------
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(ent => ent.isIntersecting && ent.target.classList.add('visible'));
-    }, { threshold: .15 });
     $$('.fade').forEach(el => io.observe(el));
 
     const spy = new IntersectionObserver(entries => {
