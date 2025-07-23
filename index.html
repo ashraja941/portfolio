@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio – Terminal Edition</title>
+  <!-- JetBrains Mono (served from jsdelivr Nerd Font split to stay light) -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link href="https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono@2.304/fonts/webfonts/JetBrainsMono[wght].woff2" rel="preload" as="font" type="font/woff2" crossorigin>
+  <style>
+    /* ==================== Gruvbox Dark Palette ==================== */
+    :root {
+      --bg:        #1d2021;
+      --bg-hl:     #282828;
+      --fg:        #ebdbb2;
+      --accent1:   #b8bb26; /* green */
+      --accent2:   #83a598; /* blue */
+      --accent3:   #fe8019; /* orange */
+      --accent-red:#fb4934; /* red */
+      --cursor:    var(--accent3);
+      --fontMono:  'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; }
+    html,body { height: 100%; margin: 0; scroll-behavior: smooth; font-family: var(--fontMono); background: var(--bg); color: var(--fg); }
+    body { display: flex; }
+
+    /* ==================== Layout ==================== */
+    nav { position: fixed; top: 0; left: 0; height: 100%; width: 180px; padding: 1rem; background: var(--bg-hl); border-right: 2px solid var(--accent2); display: flex; flex-direction: column; gap: .5rem; }
+    nav a { color: var(--accent2); text-decoration: none; transition: color .2s; }
+    nav a:hover, nav a.active { color: var(--accent3); }
+
+    main { flex: 1; margin-left: 180px; overflow-y: auto; scroll-snap-type: y mandatory; }
+    section { min-height: 100vh; padding: 3rem 2rem; border-left: 2px solid var(--accent2); scroll-snap-align: start; display: flex; flex-direction: column; gap: 1rem; }
+    h2 { font-size: 1.5rem; margin: 0 0 1rem 0; display: inline-block; position: relative; }
+    h2::after { content: "_"; position: absolute; animation: blink 1s steps(2, start) infinite; right: -10px; }
+    @keyframes blink { to { visibility: hidden; } }
+
+    /* Window header label */
+    .label { color: var(--accent1); margin-bottom: .5rem; font-weight: bold; }
+
+    /* Fade‑in on intersect */
+    .fade { opacity: 0; transform: translateY(20px); transition: opacity .45s ease-out, transform .45s ease-out; }
+    .fade.visible { opacity: 1; transform: translateY(0); }
+
+    /* Experience collapsible */
+    details { background: var(--bg-hl); border: 1px solid var(--accent2); padding: .5rem 1rem; margin-bottom: .75rem; }
+    summary { cursor: pointer; font-weight: bold; }
+
+    /* Projects grid */
+    #projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .card { perspective: 1000px; }
+    .card-inner { position: relative; width: 100%; height: 170px; transition: transform .4s; transform-style: preserve-3d; cursor: pointer; }
+    .card:hover .card-inner { transform: rotateY(180deg); }
+    .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border: 1px solid var(--accent2); display: flex; align-items: center; justify-content: center; padding: .5rem; }
+    .card-front { background: var(--bg-hl); }
+    .card-back { background: var(--bg); transform: rotateY(180deg); font-size: .85rem; }
+
+    /* Tag cloud */
+    .tag { display: inline-block; padding: .2rem .4rem; margin: .15rem; border: 1px solid var(--accent2); border-radius: 4px; font-size: .85rem; }
+    .strong  { background: var(--accent1); color: var(--bg); }
+    .medium  { background: var(--accent3); color: var(--bg); }
+
+    /* Contact */
+    #contact a { color: var(--accent2); text-decoration: none; border-bottom: 1px dotted var(--accent2); }
+    #contact a:hover { color: var(--accent3); }
+
+    /* Responsive nav collapse */
+    @media (max-width: 768px) {
+      nav { position: fixed; top: 0; left: 0; width: 100%; height: 48px; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 2px solid var(--accent2); }
+      nav a { padding: 0 .75rem; white-space: nowrap; }
+      main { margin-left: 0; margin-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav"></nav>
+  <main>
+    <!-- Sections will be injected by JS -->
+  </main>
+
+  <!-- =================== Content Data JSON =================== -->
+  <script type="application/json" id="profile-data">
+  {
+      "full_name": "Ashwin Raja Shanmuga Raja",
+      "tagline": "Data Scientist | ML/DL Enthusiast | AI Builder",
+      "bio": "Computer Science graduate with 1.5+ years of experience in data science, ML, and AI model deployment. Passionate about solving real-world problems with deep learning, model optimization, and scalable pipelines.",
+      "location": "College Station, TX, USA",
+      "jobs": [
+        {
+          "title": "Data Scientist",
+          "company": "Texas A&M",
+          "location": "College Station, TX",
+          "start_date": "2024-01",
+          "end_date": "Present",
+          "bullets": [
+            "Optimized ML models (XGBoost, RF, Logistic Regression) for hypoxemia prediction with 15% accuracy gain",
+            "Used ResNet and CNNs for ECG spectrogram classification, boosting shunt blockage prediction by 10%",
+            "Processed 500k+ real patient records, increasing pipeline efficiency by 35%",
+            "Performed group trajectory analysis for DKA prediction using R and Python"
+          ]
+        },
+        {
+          "title": "Python Intern",
+          "company": "The Arm Academy",
+          "location": "India",
+          "start_date": "2023-01",
+          "end_date": "2023-05",
+          "bullets": [
+            "Developed Flask + JS dashboard to analyze solar panel data streams",
+            "Ported IoT workflows from Arduino to Raspberry Pi using Python",
+            "Wrote technical documentation for IoT system onboarding"
+          ]
+        },
+        {
+          "title": "Research Intern",
+          "company": "Samsung Prism",
+          "location": "India",
+          "start_date": "2022-01",
+          "end_date": "2022-07",
+          "bullets": [
+            "Implemented ROHC header compression achieving 93% efficiency of Samsung's proprietary algorithm",
+            "Built testing UI with JS and Python to analyze compression metrics"
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "name": "Automated Personal Assistant",
+          "year": 2025,
+          "repo_url": "",
+          "live_url": "",
+          "stack": ["LangChain", "RAG", "LLMs"],
+          "summary": "Multi-agent assistant for meeting scheduling and email summarization.",
+          "highlights": ["Built with LangChain and prompt-engineered agents"]
+        },
+        {
+          "name": "Outfit Recommendation System",
+          "year": 2024,
+          "repo_url": "",
+          "live_url": "",
+          "stack": ["ResNet-50", "BERT", "Transformers"],
+          "summary": "Fashion matcher with visual semantic embeddings and image features.",
+          "highlights": ["23% accuracy boost with transformer architecture"]
+        },
+        {
+          "name": "Gemma-3B Text-to-SQL",
+          "year": 2025,
+          "repo_url": "",
+          "live_url": "",
+          "stack": ["Gemma-3B", "Unsloth"],
+          "summary": "Instruction-tuned text-to-SQL model for complex schema-aware queries.",
+          "highlights": ["Fine-tuned on 100k+ samples"]
+        },
+        {
+          "name": "Aggieland Art Trail",
+          "year": 2023,
+          "repo_url": "",
+          "live_url": "",
+          "stack": ["React", "Firebase"],
+          "summary": "Interactive art trail tracker for TAMU Visual Art Society.",
+          "highlights": ["Stamp-based achievement system"]
+        },
+        {
+          "name": "Medium Auto Tagger",
+          "year": 2023,
+          "repo_url": "",
+          "live_url": "",
+          "stack": ["Python", "JavaScript"],
+          "summary": "Chrome extension for auto-tagging Medium posts using NLP.",
+          "highlights": ["Published on Edge Extension Store"]
+        }
+      ],
+      "skills": {
+        "languages": ["Python", "C++", "JavaScript", "Kotlin", "C#", "Ruby"],
+        "frameworks": ["TensorFlow", "PyTorch", "LangChain", "LangGraph", "Flask", "Node.js"],
+        "tools": ["SQL", "MongoDB", "Firebase", "Git", "REST API", "NumPy", "Pandas"],
+        "core": ["Machine Learning", "Deep Learning", "NLP", "Computer Vision", "LLMs", "ETL"]
+      },
+      "schools": [
+        {
+          "degree": "M.S.",
+          "field": "Computer Science",
+          "institution": "Texas A&M University",
+          "location": "College Station, TX",
+          "grad_year": 2025,
+          "gpa": 4.0
+        },
+        {
+          "degree": "B.Tech",
+          "field": "Computer Science and Engineering (AI & ML)",
+          "institution": "SRM Institute of Technology",
+          "location": "India",
+          "grad_year": 2023,
+          "gpa": 9.68
+        }
+      ],
+      "contact": {
+        "email": "ashraja941@gmail.com",
+        "linkedin_url": "https://www.linkedin.com/in/ashwinraja941",
+        "github_url": "https://github.com/ashraja941",
+        "resume_pdf_url": "assets/resume.pdf"
+      }
+    }
+  </script>
+
+  <!-- =================== Scripts =================== -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    // ---------- Helper utilities ----------
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => document.querySelectorAll(sel);
+
+    const data = JSON.parse($('#profile-data').textContent);
+    const main = document.querySelector('main');
+    const nav  = document.querySelector('nav');
+
+    /** Build navigation & sections array */
+    const sections = [
+      { id: 'intro',      label: '$ whoami' },
+      { id: 'experience', label: '$ history' },
+      { id: 'projects',   label: '$ ls projects/' },
+      { id: 'skills',     label: '$ cat skills.txt' },
+      { id: 'education',  label: '$ grep -i education resume' },
+      { id: 'contact',    label: '$ ping me' }
+    ];
+
+    for (const {id, label} of sections) {
+      // Nav links
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      a.textContent = label;
+      nav.appendChild(a);
+
+      // Section skeleton
+      const sec = document.createElement('section');
+      sec.id = id;
+      sec.className = 'fade';
+      const headerLabel = document.createElement('div');
+      headerLabel.className = 'label';
+      headerLabel.textContent = label;
+      const h2 = document.createElement('h2');
+      h2.textContent = id;
+      sec.append(headerLabel, h2);
+      main.appendChild(sec);
+    }
+
+    // ---------- Populate Intro ----------
+    $('#intro h2').remove(); // Remove default label, replace with Typed
+    const nameEl = document.createElement('h1');
+    nameEl.id = 'name-typed';
+    nameEl.style.fontSize = '2rem';
+    $('#intro').prepend(nameEl);
+    new Typed('#name-typed', { strings: [data.full_name], typeSpeed: 42, showCursor: true, cursorChar: '_' });
+
+    const tagline = document.createElement('p');
+    tagline.textContent = data.tagline;
+    $('#intro').appendChild(tagline);
+
+    const bio = document.createElement('p');
+    bio.textContent = data.bio;
+    $('#intro').appendChild(bio);
+
+    // ---------- Populate Experience ----------
+    const expSec = $('#experience');
+    data.jobs.forEach(job => {
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.innerHTML = `<strong>${job.title}</strong> @ ${job.company} <em>${job.start_date}–${job.end_date}</em>`;
+      details.appendChild(summary);
+      const ul = document.createElement('ul');
+      job.bullets.forEach(b => {
+        const li = document.createElement('li');
+        li.textContent = b;
+        ul.appendChild(li);
+      });
+      details.appendChild(ul);
+      expSec.appendChild(details);
+    });
+
+    // ---------- Populate Projects ----------
+        const projGrid = document.createElement('div');
+        projGrid.id = 'projects-grid';
+        $('#projects').appendChild(projGrid);
+
+        data.projects.forEach((p, index) => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.style.transition = 'all 0.6s ease';
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.5)';
+          card.innerHTML = `
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div>
+                  <strong>${p.name}</strong><br/>
+                  <small>${p.year}</small>
+                </div>
+              </div>
+              <div class="card-face card-back">
+                <p>${p.summary}</p>
+                <ul>${p.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
+                <a href="${p.repo_url}" target="_blank">code</a>
+                ${p.live_url ? `| <a href="${p.live_url}" target="_blank">live</a>` : ''}
+              </div>
+            </div>`;
+          projGrid.appendChild(card);
+
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+
+            if (index === 0) {
+              card.style.gridColumn = '1 / -1';
+            } else if (index % 2 === 1) {
+              card.style.gridColumn = 'span 1';
+              card.style.gridRow = '1';
+            } else {
+              card.style.gridRow = 'auto';
+            }
+          }, index * 400);
+        });
+    // ---------- Populate Skills ----------
+    const skillsSec = $('#skills');
+    const skillCats = Object.entries(data.skills);
+    skillCats.forEach(([cat, arr]) => {
+      const div = document.createElement('div');
+      div.innerHTML = `<strong>${cat}:</strong> `;
+      arr.forEach((s, idx) => {
+        const span = document.createElement('span');
+        span.className = 'tag ' + (idx < 2 ? 'strong' : 'medium');
+        span.textContent = s;
+        div.appendChild(span);
+      });
+      skillsSec.appendChild(div);
+    });
+
+    // ---------- Populate Education ----------
+    const eduSec = $('#education');
+    data.schools.forEach(s => {
+      const p = document.createElement('p');
+      p.textContent = `${s.degree} ${s.field}, ${s.institution} (${s.grad_year})`;
+      eduSec.appendChild(p);
+    });
+
+    // ---------- Populate Contact ----------
+    const contactSec = $('#contact');
+    const c = data.contact;
+    contactSec.innerHTML += `<p>Email: <a href="mailto:${c.email}" id="email-link">${c.email}</a></p>`;
+    contactSec.innerHTML += `<p><a href="${c.linkedin_url}" target="_blank">LinkedIn</a> • <a href="${c.github_url}" target="_blank">GitHub</a></p>`;
+    if (c.resume_pdf_url) contactSec.innerHTML += `<p><a href="${c.resume_pdf_url}" target="_blank">Download Résumé ↗</a></p>`;
+
+    // Copy‑to‑clipboard on email click
+    $('#email-link').addEventListener('click', e => {
+      e.preventDefault();
+      navigator.clipboard.writeText(c.email).then(() => {
+        const old = e.target.textContent;
+        e.target.textContent = 'copied ✔';
+        setTimeout(() => (e.target.textContent = old), 1500);
+      });
+    });
+
+    // ---------- Intersection Observer for fade‑in ----------
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(ent => ent.isIntersecting && ent.target.classList.add('visible'));
+    }, { threshold: .15 });
+    $$('.fade').forEach(el => io.observe(el));
+
+    // ---------- Scroll spy ----------
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(ent => {
+        const link = nav.querySelector(`a[href="#${ent.target.id}"]`);
+        if (ent.intersectionRatio > .5) link.classList.add('active'); else link.classList.remove('active');
+      });
+    }, { threshold: .5 });
+    sections.forEach(({id}) => spy.observe($('#' + id)));
+  </script>
+</body>
+</html>

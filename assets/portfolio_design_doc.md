@@ -150,48 +150,9 @@ Agents can populate the following and inject into the page via `<script type="ap
 | -------------------------- | ------------------------------------ | ------------- | -------- |
 | Section headers (`h2`)     | Typewriter cursor blink              | typed.js      | dynamic  |
 | Section appear in viewport | Fade + translate‑Y                   | CSS keyframes | 450 ms   |
-| Project card hover         | 3D flip                              | CSS           | 400 ms   |
+| Project card hover         | Fade in                              | CSS           | 400 ms   |
 | Inline links               | Underline‑grow on hover              | CSS           | 150 ms   |
 | `prefers-reduced-motion`   | All transforms disabled; opacity = 1 | CSS media     | —        |
-
-### HTML Skeleton (indicative)
-
-```html
-<body>
-  <nav id="side-nav" class="hidden md:block">
-    <ul>
-      <li><a href="#intro">$ whoami</a></li>
-      <li><a href="#experience">$ history</a></li>
-      <li><a href="#projects">$ ls projects/</a></li>
-      <li><a href="#skills">$ cat skills.txt</a></li>
-      <li><a href="#education">$ grep -i education resume</a></li>
-      <li><a href="#contact">$ ping me</a></li>
-    </ul>
-  </nav>
-
-  <main id="viewport">
-    <section id="intro" class="window">…</section>
-    <section id="experience" class="window">…</section>
-    <section id="projects" class="window">…</section>
-    <section id="skills" class="window">…</section>
-    <section id="education" class="window">…</section>
-    <section id="contact" class="window">…</section>
-  </main>
-</body>
-```
-
----
-
-## 8 · Accessibility & SEO
-
-* Ensure WCAG AA contrast using Gruvbox palette.
-* All interactive elements reachable via keyboard; visible focus rings.
-* Provide `aria-label` on nav links and icons.
-* Skip link `<a href="#intro" class="sr-only focus:not-sr-only">Skip to content</a>`.
-* Meta tags: `title`, `description`, OpenGraph, canonical.
-* JSON‑LD `Person` schema embedded for rich snippets.
-
----
 
 ---
 
