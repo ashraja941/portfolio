@@ -99,7 +99,7 @@
       background: var(--bg-hl);
       border: 1px solid var(--accent2);
       border-radius: 8px;
-      padding: 1.5rem;
+      padding: 1rem;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.4s ease-out, transform 0.4s ease-out;
@@ -114,7 +114,7 @@
     }
     .experience-card .company-info, .education-card .school-info {
       color: var(--accent2);
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
     .experience-card ul {
       margin: 0;
@@ -122,8 +122,8 @@
       font-size: 16px;
     }
     .experience-card li {
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
     }
     .education-card .coursework-title {
         margin-top: 1rem;
@@ -275,8 +275,7 @@
 </head>
 <body>
   <nav id="nav"></nav>
-  <main>
-    </main>
+  <main></main>
 
   <div class="modal-overlay" id="project-modal">
     <div class="modal-content">
@@ -290,7 +289,7 @@
           <div id="modal-stack"></div>
           <ul id="modal-bullets"></ul>
           <div class="links">
-            <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer">View Code</a>
+            <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer">View code on Github</a>
             <a id="modal-live-link" href="#" target="_blank" rel="noopener noreferrer">Live Site</a>
           </div>
         </div>
@@ -350,24 +349,22 @@
         {
           "name": "Automated Personal Assistant",
           "year": 2025,
-          "repo_url": "https://github.com",
+          "repo_url": "https://github.com/ashraja941/SNOOZE",
           "live_url": "",
           "stack": ["LangChain", "RAG", "LLMs"],
           "bullets": [
-            "Developed a multi-agent system capable of scheduling meetings through automated email correspondence.",
-            "Implemented a RAG (Retrieval-Augmented Generation) pipeline for intelligent and context-aware email summarization."
+            "Developed a chatbot-driven personal assistant capable of scheduling meetings and summarizing emails. Utilized multi-agent RAG and prompt-engineered LLM agents for efficient tool invocation and task execution."
           ],
           "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Personal+Assistant"
         },
         {
           "name": "Outfit Recommendation System",
           "year": 2024,
-          "repo_url": "https://github.com",
-          "live_url": "https://example.com",
-          "stack": ["ResNet-50", "BERT", "Transformers"],
+          "repo_url": "https://github.com/ashraja941/Fashion-Huh-",
+          "live_url": "https://srishti1007sk.wixsite.com/fashion-recommender",
+          "stack": ["Python", "PyTorch", "ResNet-50", "BERT", "Transformers"],
           "bullets": [
-            "Engineered a recommendation engine using visual semantic embeddings from ResNet-50 and textual features from BERT.",
-            "Achieved a 23% accuracy improvement over baseline models by implementing a cross-modal transformer architecture."
+            "Built a fashion recommendation system that used ResNet-50 for features extraction as well as visual semantic embeddings, using BERT. Increased the accuracy of the model by 23% by incorporating transformers."
           ],
            "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Outfit+Recommender"
         },
@@ -378,34 +375,53 @@
           "live_url": "",
           "stack": ["Gemma-3B", "Unsloth", "PyTorch"],
           "bullets": [
-            "Fine-tuned the Gemma-3B model on over 100,000 text-to-SQL samples for enhanced schema-aware query generation.",
-            "Utilized Unsloth for efficient, memory-optimized fine-tuning, reducing training time and resource consumption."
+            "Fine-tuned Gemma-3B with Unsloth on 100,000+ text-to-SQL data. Built an instruction-tuned model for accurate, schema-aware SQL query generation, improving performance on complex queries."
           ],
           "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Text-to-SQL"
         },
         {
           "name": "Aggieland Art Trail",
           "year": 2023,
-          "repo_url": "https://github.com",
-          "live_url": "https://example.com",
-          "stack": ["React", "Firebase", "Google Maps API"],
+          "repo_url": "https://github.com/AggielandArtTrail/AggieArtland",
+          "live_url": "",
+          "stack": ["React", "JavaScript", "Firebase", "Python"],
           "bullets": [
-            "Developed an interactive art trail tracker for the Texas A&M Visual Art Society using React and Firebase.",
-            "Implemented a stamp-based achievement system to gamify the user experience and encourage exploration."
+            "Built a web app for the Visual Art Society, enabling an interactive Art Trail with stamps and achievements using Python, Firebase for the Backend and React, and JavaScript for the Frontend."
           ],
           "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Art+Trail"
         },
         {
           "name": "Medium Auto Tagger",
           "year": 2023,
-          "repo_url": "https://github.com",
+          "repo_url": "https://github.com/ashraja941/Lexicon-The-Auto-Tagger",
           "live_url": "",
           "stack": ["Python", "JavaScript", "NLP"],
           "bullets": [
-            "Created a browser extension that automatically suggests relevant tags for Medium articles using NLP topic modeling.",
-            "Successfully published the extension on the Microsoft Edge Extension Store."
+            "Developed a Chrome extension, available on the Edge Extension Store, that automatically tags Medium posts using Natural Language Processing (NLP) Designed and implemented both the backend (Python) and frontend (JavaScript) for real-time data processing."
           ],
           "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Auto+Tagger"
+        },
+        {
+          "name": "Healthcare Treatment Scheduling",
+          "year": 2023,
+          "repo_url": "https://github.com/ashraja941/Genetic-algorithms-for-Medical-scheduling",
+          "live_url": "",
+          "stack": ["Python", "Genetic Algorithms", "NumPy"],
+          "bullets": [
+            "Proposed a genetic algorithm to optimize the scheduling for fixed-time medical treatments and achieved a 15% jump in performance compared to the Firefly Algorithm. Published on IEEE Xplore Digital Library."
+          ],
+          "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Healthcare+Scheduling"
+        },
+        {
+          "name": "RL for Car Simulation",
+          "year": 2024,
+          "repo_url": "https://github.com/ashraja941/RocketLeagueBot",
+          "live_url": "",
+          "stack": ["Python", "PyTorch", "RL"],
+          "bullets": [
+            "Developed and fine-tuned a PPO-based reinforcement learning agent for autonomous driving in a Rocket League simulation, outperforming A2C by 2× in goal efficiency. Engineered custom reward functions and training pipelines in PyTorch, optimizing policy stability and accelerating convergence."
+          ],
+          "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=RL+Car"
         }
       ],
       "skills": {
@@ -438,7 +454,7 @@
         "email": "ashraja941@gmail.com",
         "linkedin_url": "https://www.linkedin.com/in/ashwinraja941",
         "github_url": "https://github.com/ashraja941",
-        "resume_pdf_url": "assets/resume.pdf"
+        "resume_pdf_url": "https://drive.google.com/file/d/158-bO60jWNkjfa1zPfEiH-B5Kb1G3w-f/view?usp=sharing"
       }
     }
   </script>
