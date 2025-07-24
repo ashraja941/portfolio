@@ -52,7 +52,7 @@
     
     #nav-socials {
         display: flex;
-        justify-content: center; /* Centered icons */
+        justify-content: center;
         gap: 1rem;
         padding-top: 1rem;
         border-top: 1px solid var(--bg);
@@ -75,9 +75,11 @@
       font-size: 1.75rem;
       margin: 0 0 1rem 0;
       display: inline-block;
-      position: relative;
     }
-    h2::after { content: "_"; position: absolute; animation: blink 1s steps(2, start) infinite; right: -10px; }
+    h2::after {
+      content: "_";
+      animation: blink 1s steps(2, start) infinite;
+    }
     @keyframes blink { to { visibility: hidden; } }
 
     /* Window header label */
@@ -184,7 +186,7 @@
       background: var(--bg-hl);
       padding: 2rem;
       border: 2px solid var(--accent2);
-      max-width: 900px; /* Increased max-width */
+      max-width: 1100px; /* Increased max-width */
       width: 90%;
       max-height: 90vh;
       overflow-y: auto;
@@ -254,11 +256,11 @@
             gap: 2rem;
         }
         .modal-image-container {
-            width: 50%; /* Image takes 50% of width */
+            width: 50%;
             margin-bottom: 0;
         }
         .modal-text-container {
-            width: 50%; /* Text takes 50% of width */
+            width: 50%;
         }
     }
   </style>
