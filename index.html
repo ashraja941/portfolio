@@ -21,16 +21,62 @@
     }
     * { box-sizing: border-box; }
     html,body { height: 100%; margin: 0; scroll-behavior: smooth; font-family: var(--fontMono); background: var(--bg); color: var(--fg); }
-    body { display: flex; }
+    body {
+      display: flex;
+      font-size: 17px;
+      line-height: 1.5;
+    }
 
     /* ==================== Layout ==================== */
-    nav { position: fixed; top: 0; left: 0; height: 100%; width: 180px; padding: 1rem; background: var(--bg-hl); border-right: 2px solid var(--accent2); display: flex; flex-direction: column; gap: .5rem; }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 240px;
+      padding: 1rem;
+      background: var(--bg-hl);
+      border-right: 2px solid var(--accent2);
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+    }
+    .nav-links {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+    }
     nav a { color: var(--accent2); text-decoration: none; transition: color .2s; }
     nav a:hover, nav a.active { color: var(--accent3); }
+    
+    #nav-socials {
+        display: flex;
+        justify-content: center; /* Centered icons */
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--bg);
+    }
+    #nav-socials a {
+        color: var(--fg);
+        transition: color .2s;
+    }
+    #nav-socials a:hover {
+        color: var(--accent3);
+    }
+    #nav-socials svg {
+        width: 24px;
+        height: 24px;
+    }
 
-    main { flex: 1; margin-left: 180px; overflow-y: auto; scroll-snap-type: y mandatory; }
+    main { flex: 1; margin-left: 240px; overflow-y: auto; scroll-snap-type: y mandatory; }
     section { min-height: 100vh; padding: 3rem 2rem; border-left: 2px solid var(--accent2); scroll-snap-align: start; display: flex; flex-direction: column; gap: 1rem; }
-    h2 { font-size: 1.5rem; margin: 0 0 1rem 0; display: inline-block; position: relative; }
+    h2 {
+      font-size: 1.75rem;
+      margin: 0 0 1rem 0;
+      display: inline-block;
+      position: relative;
+    }
     h2::after { content: "_"; position: absolute; animation: blink 1s steps(2, start) infinite; right: -10px; }
     @keyframes blink { to { visibility: hidden; } }
 
@@ -41,9 +87,47 @@
     .fade { opacity: 0; transform: translateY(20px); transition: opacity .45s ease-out, transform .45s ease-out; }
     .fade.visible { opacity: 1; transform: translateY(0); }
 
-    /* Experience collapsible */
-    details { background: var(--bg-hl); border: 1px solid var(--accent2); padding: .5rem 1rem; margin-bottom: .75rem; }
-    summary { cursor: pointer; font-weight: bold; }
+    /* Experience & Education Cards */
+    #experience-grid, #education-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .experience-card, .education-card {
+      background: var(--bg-hl);
+      border: 1px solid var(--accent2);
+      border-radius: 8px;
+      padding: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    }
+    .experience-card.visible, .education-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .experience-card h3, .education-card h3 {
+      margin: 0 0 0.25rem 0;
+      color: var(--accent1);
+    }
+    .experience-card .company-info, .education-card .school-info {
+      color: var(--accent2);
+      margin-bottom: 1rem;
+    }
+    .experience-card ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 16px;
+    }
+    .experience-card li {
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+    .education-card .coursework-title {
+        margin-top: 1rem;
+        margin-bottom: .5rem;
+        font-weight: bold;
+    }
 
     /* Projects grid */
     #projects-grid {
@@ -58,7 +142,8 @@
       justify-content: center;
       cursor: pointer;
       transition: background .2s, border-color .2s;
-      min-height: 150px; /* Set a min-height for mobile cards */
+      min-height: 150px;
+      border-radius: 8px;
     }
     .card:hover {
       background: var(--bg);
@@ -99,21 +184,22 @@
       background: var(--bg-hl);
       padding: 2rem;
       border: 2px solid var(--accent2);
-      max-width: 700px;
+      max-width: 900px; /* Increased max-width */
       width: 90%;
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
       transform: scale(0.9);
       transition: transform .3s ease;
+      border-radius: 8px;
     }
     .modal-overlay.active .modal-content {
       transform: scale(1);
     }
     .modal-close {
       position: absolute;
-      top: .5rem;
-      right: 1rem;
+      top: 1rem;
+      right: 1.5rem;
       font-size: 2rem;
       color: var(--fg);
       cursor: pointer;
@@ -122,30 +208,58 @@
     .modal-close:hover {
       color: var(--accent-red);
     }
-    .modal-content img {
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-image-container {
+        flex-shrink: 0;
+        margin-bottom: 1.5rem;
+    }
+    .modal-image-container img {
       width: 100%;
       height: auto;
-      margin-bottom: 1rem;
       border: 1px solid var(--accent2);
+      border-radius: 4px;
     }
-    .modal-content h3 {
+    .modal-text-container h3 {
       color: var(--accent1);
       margin-top: 0;
+      font-size: 1.5rem;
     }
-    .modal-content .links a {
+    .modal-text-container h4 {
+        font-size: 1.2rem;
+        margin-bottom: .5rem;
+    }
+    .modal-text-container .links a {
       color: var(--accent2);
       margin-right: 1rem;
     }
-    .modal-content .links a:hover {
+    .modal-text-container .links a:hover {
       color: var(--accent3);
     }
 
-
-    /* Responsive nav collapse */
+    /* Responsive Styles */
     @media (max-width: 768px) {
       nav { position: fixed; top: 0; left: 0; width: 100%; height: 48px; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 2px solid var(--accent2); }
+      .nav-links { flex-direction: row; }
       nav a { padding: 0 .75rem; white-space: nowrap; }
       main { margin-left: 0; margin-top: 48px; }
+      #nav-socials { display: none; }
+    }
+    
+    @media (min-width: 769px) {
+        .modal-body {
+            flex-direction: row;
+            gap: 2rem;
+        }
+        .modal-image-container {
+            width: 50%; /* Image takes 50% of width */
+            margin-bottom: 0;
+        }
+        .modal-text-container {
+            width: 50%; /* Text takes 50% of width */
+        }
     }
   </style>
 </head>
@@ -157,15 +271,21 @@
   <div class="modal-overlay" id="project-modal">
     <div class="modal-content">
       <span class="modal-close" id="modal-close-btn">&times;</span>
-      <img src="" id="modal-img" alt="Project Image">
-      <h3 id="modal-title"></h3>
-      <p id="modal-summary"></p>
-      <div id="modal-stack"></div>
-      <h4>Highlights:</h4>
-      <ul id="modal-highlights"></ul>
-      <div class="links">
-        <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer">View Code</a>
-        <a id="modal-live-link" href="#" target="_blank" rel="noopener noreferrer">Live Site</a>
+      <div class="modal-body">
+        <div class="modal-image-container">
+          <img src="" id="modal-img" alt="Project Image">
+        </div>
+        <div class="modal-text-container">
+          <h3 id="modal-title"></h3>
+          <p id="modal-summary"></p>
+          <div id="modal-stack"></div>
+          <h4>Highlights:</h4>
+          <ul id="modal-highlights"></ul>
+          <div class="links">
+            <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer">View Code</a>
+            <a id="modal-live-link" href="#" target="_blank" rel="noopener noreferrer">Live Site</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -173,8 +293,12 @@
   <script type="application/json" id="profile-data">
   {
       "full_name": "Ashwin Raja Shanmuga Raja",
-      "tagline": "Data Scientist | ML/DL Enthusiast | AI Builder",
-      "bio": "Computer Science graduate with 1.5+ years of experience in data science, ML, and AI model deployment. Passionate about solving real-world problems with deep learning, model optimization, and scalable pipelines.",
+      "tagline": "Data Scientist | ML/DL Enthusiast | AI Software Engineer",
+      "bio": [
+        "I am Ashwin Raja, a machine learning enthusiast and a recent graduate with a Master's in Computer Science from Texas A&M University. My expertise lies in developing and optimizing machine learning models, deep learning architectures, and data-driven solutions.",
+        "With over 1.5 years of experience in Data Science and Machine Learning, I am passionate about transforming complex data into actionable insights. Throughout my academic journey, I have maintained a 4.0 GPA while working on diverse projects involving predictive modeling and natural language processing.",
+        "Currently, I am a student technician at Texas A&M, where I build predictive models for critical medical conditions such as Sudden Hypoxemia and DKA. My work involves the entire machine learning pipeline, from preprocessing over 500,000 patient records from Texas Children’s Hospital to developing and fine-tuning models that have improved accuracy by up to 15%. A crucial aspect of my work is communicating complex findings to both technical and non-technical stakeholders, including doctors and hospital administrators. I am eager to apply my expertise in predictive modeling, generative AI, and natural language processing to tackle new challenges and drive innovation in a full-time Data Scientist position."
+      ],
       "location": "College Station, TX, USA",
       "jobs": [
         {
@@ -279,7 +403,8 @@
           "institution": "Texas A&M University",
           "location": "College Station, TX",
           "grad_year": 2025,
-          "gpa": 4.0
+          "gpa": 4.0,
+          "subjects": ["Machine Learning", "Deep Learning", "Algorithms", "Data Structures", "Natural Language Processing", "Computer Vision"]
         },
         {
           "degree": "B.Tech",
@@ -287,7 +412,8 @@
           "institution": "SRM Institute of Technology",
           "location": "India",
           "grad_year": 2023,
-          "gpa": 9.68
+          "gpa": 9.68,
+          "subjects": ["Advanced Programming", "Database Management", "Operating Systems", "Software Engineering", "AI and Machine Learning"]
         }
       ],
       "contact": {
@@ -304,6 +430,7 @@
     // ---------- Helper utilities ----------
     const $ = sel => document.querySelector(sel);
     const $$ = sel => document.querySelectorAll(sel);
+    const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
     const data = JSON.parse($('#profile-data').textContent);
     const main = document.querySelector('main');
@@ -311,19 +438,25 @@
 
     /** Build navigation & sections array */
     const sections = [
-      { id: 'about',      label: 'about' },
-      { id: 'skills',     label: 'skills' },
-      { id: 'experience', label: 'experience' },
-      { id: 'projects',   label: 'projects' },
-      { id: 'education',  label: 'education' },
-      { id: 'contact',    label: 'contact' }
+      { id: 'about',      label: 'whoami' },
+      { id: 'skills',     label: 'cat ~/.skills' },
+      { id: 'experience', label: 'history | grep work' },
+      { id: 'projects',   label: 'cd projects/' },
+      { id: 'education',  label: 'nvim education.md' },
+      { id: 'contact',    label: 'ping me@domain.com' }
     ];
+    
+    const navLinks = document.createElement('div');
+    navLinks.className = 'nav-links';
+    const navSocials = document.createElement('div');
+    navSocials.id = 'nav-socials';
+    nav.append(navLinks, navSocials);
 
     for (const {id, label} of sections) {
       const a = document.createElement('a');
       a.href = `#${id}`;
       a.textContent = `$ ${label}`;
-      nav.appendChild(a);
+      navLinks.appendChild(a);
 
       const sec = document.createElement('section');
       sec.id = id;
@@ -332,43 +465,64 @@
       headerLabel.className = 'label';
       headerLabel.textContent = `$ ${label}`;
       const h2 = document.createElement('h2');
-      h2.textContent = label;
+      h2.textContent = capitalize(id);
       sec.append(headerLabel, h2);
       main.appendChild(sec);
     }
 
     // ---------- Populate About ----------
-    $('#about h2').remove();
+    const aboutSection = $('#about');
+    aboutSection.querySelector('h2').remove();
     const nameEl = document.createElement('h1');
     nameEl.id = 'name-typed';
-    nameEl.style.fontSize = '2rem';
-    $('#about').prepend(nameEl);
+    nameEl.style.fontSize = '2.5rem';
+    aboutSection.prepend(nameEl);
     new Typed('#name-typed', { strings: [data.full_name], typeSpeed: 42, showCursor: true, cursorChar: '_' });
 
     const tagline = document.createElement('p');
     tagline.textContent = data.tagline;
-    $('#about').appendChild(tagline);
+    aboutSection.appendChild(tagline);
 
-    const bio = document.createElement('p');
-    bio.textContent = data.bio;
-    $('#about').appendChild(bio);
+    data.bio.forEach(para => {
+        const p = document.createElement('p');
+        p.textContent = para;
+        aboutSection.appendChild(p);
+    });
 
     // ---------- Populate Experience ----------
     const expSec = $('#experience');
+    const expGrid = document.createElement('div');
+    expGrid.id = 'experience-grid';
+    expSec.appendChild(expGrid);
+
     data.jobs.forEach(job => {
-      const details = document.createElement('details');
-      const summary = document.createElement('summary');
-      summary.innerHTML = `<strong>${job.title}</strong> @ ${job.company} <em>${job.start_date}–${job.end_date}</em>`;
-      details.appendChild(summary);
-      const ul = document.createElement('ul');
-      job.bullets.forEach(b => {
-        const li = document.createElement('li');
-        li.textContent = b;
-        ul.appendChild(li);
-      });
-      details.appendChild(ul);
-      expSec.appendChild(details);
+        const card = document.createElement('div');
+        card.className = 'experience-card';
+        card.innerHTML = `
+            <h3>${job.title}</h3>
+            <p class="company-info">${job.company} | <em>${job.start_date}–${job.end_date}</em></p>
+            <ul>
+                ${job.bullets.map(b => `<li>${b}</li>`).join('')}
+            </ul>
+        `;
+        expGrid.appendChild(card);
     });
+
+    const experienceObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const cards = $$('#experience-grid .experience-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 200);
+                });
+                observer.unobserve(expSec);
+            }
+        });
+    }, { threshold: 0.1 });
+    experienceObserver.observe(expSec);
+
 
     // ---------- Populate Projects ----------
     const projGrid = document.createElement('div');
@@ -377,28 +531,25 @@
     const projects = data.projects;
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     
-    // General fade-in observer for sections and mobile project cards
     const io = new IntersectionObserver(entries => {
       entries.forEach(ent => ent.isIntersecting && ent.target.classList.add('visible'));
     }, { threshold: .15 });
 
     if (isMobile) {
-      // --- MOBILE: Simple vertical layout ---
       projGrid.style.display = 'grid';
       projGrid.style.gridTemplateColumns = '1fr';
       projGrid.style.gap = '1rem';
 
       projects.forEach(project => {
         const card = document.createElement('div');
-        card.className = 'card fade'; // Use the fade-in-on-scroll effect
+        card.className = 'card fade';
         card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
         card.addEventListener('click', () => openModal(project));
         projGrid.appendChild(card);
-        io.observe(card); // Watch this card to fade it in
+        io.observe(card);
       });
 
     } else {
-      // --- DESKTOP: Tiling animation ---
       const VIRTUAL_GRID_SIZE = 128;
       projGrid.style.display = 'grid';
       projGrid.style.gridTemplateColumns = `repeat(${VIRTUAL_GRID_SIZE}, 1fr)`;
@@ -507,14 +658,46 @@
     });
 
     const eduSec = $('#education');
-    data.schools.forEach(s => {
-      const p = document.createElement('p');
-      p.textContent = `${s.degree} ${s.field}, ${s.institution} (${s.grad_year})`;
-      eduSec.appendChild(p);
+    const eduGrid = document.createElement('div');
+    eduGrid.id = 'education-grid';
+    eduSec.appendChild(eduGrid);
+
+    data.schools.forEach(school => {
+        const card = document.createElement('div');
+        card.className = 'education-card';
+        card.innerHTML = `
+            <h3>${school.degree} in ${school.field}</h3>
+            <p class="school-info">${school.institution} | Graduated ${school.grad_year}</p>
+            <p><strong>GPA:</strong> ${school.gpa}</p>
+            <div>
+                <p class="coursework-title">Relevant Coursework:</p>
+                <div>
+                    ${school.subjects.map(subject => `<span class="tag">${subject}</span>`).join(' ')}
+                </div>
+            </div>
+        `;
+        eduGrid.appendChild(card);
     });
 
-    const contactSec = $('#contact');
+    const educationObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const cards = $$('#education-grid .education-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 200);
+                });
+                observer.unobserve(eduSec);
+            }
+        });
+    }, { threshold: 0.1 });
+    educationObserver.observe(eduSec);
+
+
+    // ---------- Populate Contact & Nav Socials ----------
     const c = data.contact;
+    const contactSec = $('#contact');
     const introParagraph = document.createElement('p');
     introParagraph.textContent = "Thanks for visiting my portfolio! I’m always excited to connect with people who share a passion for technology, AI, or building meaningful products. Whether you have an opportunity, want to collaborate, or just want to say hello — feel free to reach out. I’m happy to chat about projects, ideas, or anything tech!";
     introParagraph.style.marginBottom = '2rem';
@@ -522,6 +705,18 @@
     const linksContainer = document.createElement('div');
     linksContainer.innerHTML = `<p>Email: <a href="mailto:${c.email}" id="email-link">${c.email}</a></p><p><a href="${c.linkedin_url}" target="_blank">LinkedIn</a> • <a href="${c.github_url}" target="_blank">GitHub</a></p>${c.resume_pdf_url ? `<p><a href="${c.resume_pdf_url}" target="_blank">Download Résumé ↗</a></p>` : ''}`;
     contactSec.appendChild(linksContainer);
+    
+    navSocials.innerHTML = `
+        <a href="mailto:${c.email}" title="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M1.75 3h20.5c.966 0 1.75.784 1.75 1.75v14.5A1.75 1.75 0 0 1 22.25 21H1.75A1.75 1.75 0 0 1 0 19.25V4.75C0 3.784.784 3 1.75 3ZM1.5 4.75v.273l10.27 7.336a.75.75 0 0 0 .46.164h0a.75.75 0 0 0 .46-.164L22.5 5.023V4.75a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Zm21 1.42-9.102 6.501a2.25 2.25 0 0 1-2.796 0L1.5 6.17v13.08c0 .138.112.25.25.25h20.5a.25.25 0 0 0 .25-.25V6.17Z"/></svg>
+        </a>
+        <a href="${c.github_url}" target="_blank" title="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0 0 22 12c0-5.523-4.477-10-10-10Z" clip-rule="evenodd"/></svg>
+        </a>
+        <a href="${c.linkedin_url}" target="_blank" title="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.75 3H4.25A1.25 1.25 0 0 0 3 4.25v15.5A1.25 1.25 0 0 0 4.25 21h15.5A1.25 1.25 0 0 0 21 19.75V4.25A1.25 1.25 0 0 0 19.75 3ZM8.25 18.5h-3v-9h3v9ZM6.75 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM18.5 18.5h-3V14c0-1.1-.02-2.5-1.5-2.5s-1.73 1.19-1.73 2.42V18.5h-3v-9h2.88v1.31h.04c.4-.76 1.38-1.55 2.84-1.55 3.04 0 3.6 2 3.6 4.6v5.14Z"/></svg>
+        </a>
+    `;
 
     // ---------- Event Listeners ----------
     $('#email-link').addEventListener('click', e => {
@@ -533,7 +728,8 @@
       });
     });
     
-    $$('nav a').forEach(link => {
+    // Apply smooth scrolling ONLY to nav links, not social icons
+    $$('.nav-links a').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
         const targetId = link.getAttribute('href');
