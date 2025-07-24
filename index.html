@@ -186,7 +186,7 @@
       background: var(--bg-hl);
       padding: 2rem;
       border: 2px solid var(--accent2);
-      max-width: 1100px; /* Increased max-width */
+      max-width: 1100px;
       width: 90%;
       max-height: 90vh;
       overflow-y: auto;
@@ -229,9 +229,17 @@
       margin-top: 0;
       font-size: 1.5rem;
     }
-    .modal-text-container h4 {
-        font-size: 1.2rem;
-        margin-bottom: .5rem;
+    #modal-stack {
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    #modal-bullets {
+        padding-left: 1.25rem;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+    }
+    #modal-bullets li {
+        margin-bottom: 0.75rem;
     }
     .modal-text-container .links a {
       color: var(--accent2);
@@ -279,10 +287,8 @@
         </div>
         <div class="modal-text-container">
           <h3 id="modal-title"></h3>
-          <p id="modal-summary"></p>
           <div id="modal-stack"></div>
-          <h4>Highlights:</h4>
-          <ul id="modal-highlights"></ul>
+          <ul id="modal-bullets"></ul>
           <div class="links">
             <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer">View Code</a>
             <a id="modal-live-link" href="#" target="_blank" rel="noopener noreferrer">Live Site</a>
@@ -301,7 +307,7 @@
         "With over 1.5 years of experience in Data Science and Machine Learning, I am passionate about transforming complex data into actionable insights. Throughout my academic journey, I have maintained a 4.0 GPA while working on diverse projects involving predictive modeling and natural language processing.",
         "Currently, I am a student technician at Texas A&M, where I build predictive models for critical medical conditions such as Sudden Hypoxemia and DKA. My work involves the entire machine learning pipeline, from preprocessing over 500,000 patient records from Texas Children’s Hospital to developing and fine-tuning models that have improved accuracy by up to 15%. A crucial aspect of my work is communicating complex findings to both technical and non-technical stakeholders, including doctors and hospital administrators. I am eager to apply my expertise in predictive modeling, generative AI, and natural language processing to tackle new challenges and drive innovation in a full-time Data Scientist position."
       ],
-      "location": "College Station, TX, USA",
+      "location": "Dallas, TX, USA",
       "jobs": [
         {
           "title": "Data Scientist",
@@ -310,10 +316,10 @@
           "start_date": "2024-01",
           "end_date": "Present",
           "bullets": [
-            "Optimized ML models (XGBoost, RF, Logistic Regression) for hypoxemia prediction with 15% accuracy gain",
-            "Used ResNet and CNNs for ECG spectrogram classification, boosting shunt blockage prediction by 10%",
-            "Processed 500k+ real patient records, increasing pipeline efficiency by 35%",
-            "Performed group trajectory analysis for DKA prediction using R and Python"
+            "Optimized machine learning models (XGBoost, Random Forest, Logistic Regression) for predicting Sudden Hypoxemia, achieving 15% higher accuracy through Recursive Feature Elimination and Lasso Regression.",
+            "Designed Deep Learning models for analyzing ECG spectrograms using ResNet-18, CNNs, and Bayesian optimization, improving shunt blockage prediction accuracy by 10%.",
+            "Built scalable data cleaning and preprocessing pipelines for 500,000+ real-world patient records from Texas Children's Hospital and Baylor College of Medicine, improving model training efficiency by 35%.",
+            "Built group-based trajectory analysis for DKA prediction in R and Python, extracting maximum insights from a limited dataset to enhance early detection strategies and improved Logistic Regression performance by 12%."
           ]
         },
         {
@@ -323,9 +329,9 @@
           "start_date": "2023-01",
           "end_date": "2023-05",
           "bullets": [
-            "Developed Flask + JS dashboard to analyze solar panel data streams",
-            "Ported IoT workflows from Arduino to Raspberry Pi using Python",
-            "Wrote technical documentation for IoT system onboarding"
+            "Programmed an Interactive dashboard using Flask backend and JavaScript frontend to display and analyze real-time data streams from solar panels, to predict trends, improving monitoring accuracy and efficiency.",
+            "Migrated Arduino workflows to Raspberry Pi with Python, utilizing its 40x faster processing power.",
+            "Authored a comprehensive technical manual to facilitate knowledge transfer for new engineers using IoT systems."
           ]
         },
         {
@@ -335,8 +341,8 @@
           "start_date": "2022-01",
           "end_date": "2022-07",
           "bullets": [
-            "Implemented ROHC header compression achieving 93% efficiency of Samsung's proprietary algorithm",
-            "Built testing UI with JS and Python to analyze compression metrics"
+            "Designed an open-source header compression tool using ROHC based header-compression and decompression achieving 93% of Samsung’s proprietary algorithm efficiency.",
+            "Delivered a cross-platform frontend to test compression-decompression metrics using JavaScript and Python."
           ]
         }
       ],
@@ -347,8 +353,10 @@
           "repo_url": "https://github.com",
           "live_url": "",
           "stack": ["LangChain", "RAG", "LLMs"],
-          "summary": "Multi-agent assistant for meeting scheduling and email summarization.",
-          "highlights": ["Built with LangChain and prompt-engineered agents"],
+          "bullets": [
+            "Developed a multi-agent system capable of scheduling meetings through automated email correspondence.",
+            "Implemented a RAG (Retrieval-Augmented Generation) pipeline for intelligent and context-aware email summarization."
+          ],
           "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Personal+Assistant"
         },
         {
@@ -357,8 +365,10 @@
           "repo_url": "https://github.com",
           "live_url": "https://example.com",
           "stack": ["ResNet-50", "BERT", "Transformers"],
-          "summary": "Fashion matcher with visual semantic embeddings and image features.",
-          "highlights": ["23% accuracy boost with transformer architecture"],
+          "bullets": [
+            "Engineered a recommendation engine using visual semantic embeddings from ResNet-50 and textual features from BERT.",
+            "Achieved a 23% accuracy improvement over baseline models by implementing a cross-modal transformer architecture."
+          ],
            "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Outfit+Recommender"
         },
         {
@@ -366,9 +376,11 @@
           "year": 2025,
           "repo_url": "https://github.com",
           "live_url": "",
-          "stack": ["Gemma-3B", "Unsloth"],
-          "summary": "Instruction-tuned text-to-SQL model for complex schema-aware queries.",
-          "highlights": ["Fine-tuned on 100k+ samples"],
+          "stack": ["Gemma-3B", "Unsloth", "PyTorch"],
+          "bullets": [
+            "Fine-tuned the Gemma-3B model on over 100,000 text-to-SQL samples for enhanced schema-aware query generation.",
+            "Utilized Unsloth for efficient, memory-optimized fine-tuning, reducing training time and resource consumption."
+          ],
           "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Text-to-SQL"
         },
         {
@@ -376,9 +388,11 @@
           "year": 2023,
           "repo_url": "https://github.com",
           "live_url": "https://example.com",
-          "stack": ["React", "Firebase"],
-          "summary": "Interactive art trail tracker for TAMU Visual Art Society.",
-          "highlights": ["Stamp-based achievement system"],
+          "stack": ["React", "Firebase", "Google Maps API"],
+          "bullets": [
+            "Developed an interactive art trail tracker for the Texas A&M Visual Art Society using React and Firebase.",
+            "Implemented a stamp-based achievement system to gamify the user experience and encourage exploration."
+          ],
           "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Art+Trail"
         },
         {
@@ -386,9 +400,11 @@
           "year": 2023,
           "repo_url": "https://github.com",
           "live_url": "",
-          "stack": ["Python", "JavaScript"],
-          "summary": "Chrome extension for auto-tagging Medium posts using NLP.",
-          "highlights": ["Published on Edge Extension Store"],
+          "stack": ["Python", "JavaScript", "NLP"],
+          "bullets": [
+            "Created a browser extension that automatically suggests relevant tags for Medium articles using NLP topic modeling.",
+            "Successfully published the extension on the Microsoft Edge Extension Store."
+          ],
           "image_url": "https://placehold.co/600x400/1d2021/ebdbb2?text=Auto+Tagger"
         }
       ],
@@ -609,7 +625,6 @@
     const openModal = (project) => {
       $('#modal-img').src = project.image_url;
       $('#modal-title').textContent = project.name;
-      $('#modal-summary').textContent = project.summary;
       
       const stackContainer = $('#modal-stack');
       stackContainer.innerHTML = '';
@@ -620,12 +635,12 @@
         stackContainer.appendChild(tag);
       });
       
-      const highlightsList = $('#modal-highlights');
-      highlightsList.innerHTML = '';
-      project.highlights.forEach(highlight => {
+      const bulletsList = $('#modal-bullets');
+      bulletsList.innerHTML = '';
+      project.bullets.forEach(bullet => {
         const li = document.createElement('li');
-        li.textContent = highlight;
-        highlightsList.appendChild(li);
+        li.textContent = bullet;
+        bulletsList.appendChild(li);
       });
       
       $('#modal-repo-link').href = project.repo_url;
