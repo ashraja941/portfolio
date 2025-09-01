@@ -269,6 +269,10 @@ body {
         nav a { padding: 0 .75rem; white-space: nowrap; }
         main { margin-left: 0; margin-top: 48px; }
         #nav-socials { display: none; }
+
+        /* Projects: stack cards vertically on mobile */
+        #projects-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; height: auto; padding: 0; }
+        #projects-grid .card { position: static; width: 100%; }
     }
 
     @media (min-width: 769px) {
@@ -610,9 +614,11 @@ body {
                 projGrid.style.gridTemplateColumns = '1fr';
                 projGrid.style.gap = '1rem';
 
-                projects.forEach(project => {
+                projects.forEach((project, i) => {
                     const card = document.createElement('div');
                     card.className = 'card fade';
+                    // Stagger fade-in: 80ms per card, capped to avoid long waits when scrolling
+                    card.style.transitionDelay = `${Math.min(i, 7) * 80}ms`;
                     card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
                     card.addEventListener('click', () => openModal(project));
                     projGrid.appendChild(card);
