@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio – Terminal Edition</title>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link href="https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono@2.304/fonts/webfonts/JetBrainsMono[wght].woff2" rel="preload" as="font" type="font/woff2" crossorigin>
-  <style>
-    /* ==================== Gruvbox Dark Palette ==================== */
-    :root {
-      --bg:        #1d2021;
-      --bg-hl:     #282828;
-      --fg:        #ebdbb2;
-      --accent1:   #b8bb26; /* green */
-      --accent2:   #83a598; /* blue */
-      --accent3:   #fe8019; /* orange */
-      --accent-red:#fb4934; /* red */
-      --cursor:    var(--accent3);
-      --fontMono:  'JetBrains Mono', monospace;
-    }
-    * { box-sizing: border-box; }
-    html,body { height: 100%; margin: 0; scroll-behavior: smooth; font-family: var(--fontMono); background: var(--bg); color: var(--fg); }
-    body {
-      display: flex;
-      font-size: 17px;
-      line-height: 1.5;
-    }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portfolio – Terminal Edition</title>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link href="https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono@2.304/fonts/webfonts/JetBrainsMono[wght].woff2" rel="preload" as="font" type="font/woff2" crossorigin>
+        <style>
+/* ==================== Gruvbox Dark Palette ==================== */
+:root {
+    --bg:        #1d2021;
+    --bg-hl:     #282828;
+    --fg:        #ebdbb2;
+    --accent1:   #b8bb26; /* green */
+    --accent2:   #83a598; /* blue */
+    --accent3:   #fe8019; /* orange */
+    --accent-red:#fb4934; /* red */
+    --cursor:    var(--accent3);
+    --fontMono:  'JetBrains Mono', monospace;
+}
+* { box-sizing: border-box; }
+html,body { height: 100%; margin: 0; scroll-behavior: smooth; font-family: var(--fontMono); background: var(--bg); color: var(--fg); }
+body {
+    display: flex;
+    font-size: 17px;
+    line-height: 1.5;
+}
 
     /* ==================== Layout ==================== */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 240px;
-      padding: 1rem;
-      background: var(--bg-hl);
-      border-right: 2px solid var(--accent2);
-      display: flex;
-      flex-direction: column;
-      font-size: 16px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 240px;
+        padding: 1rem;
+        background: var(--bg-hl);
+        border-right: 2px solid var(--accent2);
+        display: flex;
+        flex-direction: column;
+        font-size: 16px;
     }
     .nav-links {
         flex-grow: 1;
@@ -49,7 +49,7 @@
     }
     nav a { color: var(--accent2); text-decoration: none; transition: color .2s; }
     nav a:hover, nav a.active { color: var(--accent3); }
-    
+
     #nav-socials {
         display: flex;
         justify-content: center;
@@ -72,13 +72,13 @@
     main { flex: 1; margin-left: 240px; overflow-y: auto; scroll-snap-type: y mandatory; }
     section { min-height: 100vh; padding: 3rem 2rem; border-left: 2px solid var(--accent2); scroll-snap-align: start; display: flex; flex-direction: column; gap: 1rem; }
     h2 {
-      font-size: 1.75rem;
-      margin: 0 0 1rem 0;
-      display: inline-block;
+        font-size: 1.75rem;
+        margin: 0 0 1rem 0;
+        display: inline-block;
     }
     h2::after {
-      content: "_";
-      animation: blink 1s steps(2, start) infinite;
+        content: "_";
+        animation: blink 1s steps(2, start) infinite;
     }
     @keyframes blink { to { visibility: hidden; } }
 
@@ -91,22 +91,22 @@
 
     /* Experience & Education Cards */
     #experience-grid, #education-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
     .experience-card, .education-card {
-      background: var(--bg-hl);
-      border: 1px solid var(--accent2);
-      border-radius: 8px;
-      padding: 1rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        background: var(--bg-hl);
+        border: 1px solid var(--accent2);
+        border-radius: 8px;
+        padding: 1rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.4s ease-out, transform 0.4s ease-out;
     }
     .experience-card.visible, .education-card.visible {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
     .experience-card .card-header {
         display: flex;
@@ -115,23 +115,23 @@
         margin-bottom: 0.75rem;
     }
     .experience-card h3, .education-card h3 {
-      margin: 0;
-      color: var(--accent1);
+        margin: 0;
+        color: var(--accent1);
     }
     .experience-card .company-info, .education-card .school-info {
-      color: var(--accent2);
-      margin: 0;
-      text-align: right;
-      white-space: nowrap;
+        color: var(--accent2);
+        margin: 0;
+        text-align: right;
+        white-space: nowrap;
     }
     .experience-card ul {
-      margin: 0;
-      padding-left: 1.25rem;
-      font-size: 16px;
+        margin: 0;
+        padding-left: 1.25rem;
+        font-size: 16px;
     }
     .experience-card li {
-      margin-bottom: 0.25rem;
-      line-height: 1.3;
+        margin-bottom: 0.25rem;
+        line-height: 1.3;
     }
     .education-card .coursework-title {
         margin-top: 1rem;
@@ -139,27 +139,29 @@
         font-weight: bold;
     }
 
-    /* Projects grid */
     #projects-grid {
-      display: grid;
-      flex-grow: 1; 
+        position: relative;
+        width: 100%;
+        height: 80vh; /* or set this dynamically in JS */
     }
+
     .card {
-      background: var(--bg-hl);
-      border: 1px solid var(--accent2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background .2s, border-color .2s;
-      min-height: 150px;
-      border-radius: 8px;
-      text-align: center;
-      padding: 1rem;
+        position: absolute;
+        transition: all 0.6s ease-in-out;
+        background: var(--bg-hl);
+        border: 1px solid var(--accent2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 8px;
+        text-align: center;
+        padding: 1rem;
+        opacity: 0;
     }
     .card:hover {
-      background: var(--bg);
-      border-color: var(--accent3);
+        background: var(--bg);
+        border-color: var(--accent3);
     }
 
     /* Tag cloud */
@@ -170,55 +172,55 @@
     /* Contact */
     #contact a { color: var(--accent2); text-decoration: none; border-bottom: 1px dotted var(--accent2); }
     #contact a:hover { color: var(--accent3); }
-    
+
     /* Project Modal */
     .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(29, 32, 33, 0.8);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity .3s ease, visibility .3s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(29, 32, 33, 0.8);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s ease, visibility .3s ease;
     }
     .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
+        opacity: 1;
+        visibility: visible;
     }
     .modal-content {
-      background: var(--bg-hl);
-      padding: 2rem;
-      border: 2px solid var(--accent2);
-      max-width: 1100px;
-      width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-      transform: scale(0.9);
-      transition: transform .3s ease;
-      border-radius: 8px;
+        background: var(--bg-hl);
+        padding: 2rem;
+        border: 2px solid var(--accent2);
+        max-width: 1100px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        transform: scale(0.9);
+        transition: transform .3s ease;
+        border-radius: 8px;
     }
     .modal-overlay.active .modal-content {
-      transform: scale(1);
+        transform: scale(1);
     }
     .modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1.5rem;
-      font-size: 2rem;
-      color: var(--fg);
-      cursor: pointer;
-      transition: color .2s;
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 2rem;
+        color: var(--fg);
+        cursor: pointer;
+        transition: color .2s;
     }
     .modal-close:hover {
-      color: var(--accent-red);
+        color: var(--accent-red);
     }
     .modal-body {
         display: flex;
@@ -229,15 +231,15 @@
         margin-bottom: 1.5rem;
     }
     .modal-image-container img {
-      width: 100%;
-      height: auto;
-      border: 1px solid var(--accent2);
-      border-radius: 4px;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--accent2);
+        border-radius: 4px;
     }
     .modal-text-container h3 {
-      color: var(--accent1);
-      margin-top: 0;
-      font-size: 1.5rem;
+        color: var(--accent1);
+        margin-top: 0;
+        font-size: 1.5rem;
     }
     #modal-stack {
         margin-top: 0.5rem;
@@ -252,22 +254,22 @@
         margin-bottom: 0.75rem;
     }
     .modal-text-container .links a {
-      color: var(--accent2);
-      margin-right: 1rem;
+        color: var(--accent2);
+        margin-right: 1rem;
     }
     .modal-text-container .links a:hover {
-      color: var(--accent3);
+        color: var(--accent3);
     }
 
     /* Responsive Styles */
     @media (max-width: 768px) {
-      nav { position: fixed; top: 0; left: 0; width: 100%; height: 48px; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 2px solid var(--accent2); }
-      .nav-links { flex-direction: row; }
-      nav a { padding: 0 .75rem; white-space: nowrap; }
-      main { margin-left: 0; margin-top: 48px; }
-      #nav-socials { display: none; }
+        nav { position: fixed; top: 0; left: 0; width: 100%; height: 48px; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 2px solid var(--accent2); }
+        .nav-links { flex-direction: row; }
+        nav a { padding: 0 .75rem; white-space: nowrap; }
+        main { margin-left: 0; margin-top: 48px; }
+        #nav-socials { display: none; }
     }
-    
+
     @media (min-width: 769px) {
         .modal-body {
             flex-direction: row;
@@ -281,43 +283,43 @@
             width: 50%;
         }
     }
-  </style>
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-R72KNYK41T"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+        </style>
+    </head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R72KNYK41T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  gtag('config', 'G-R72KNYK41T');
-</script>
-<body>
-  <nav id="nav"></nav>
-  <main></main>
+        gtag('config', 'G-R72KNYK41T');
+    </script>
+    <body>
+        <nav id="nav"></nav>
+        <main></main>
 
-  <div class="modal-overlay" id="project-modal">
-    <div class="modal-content">
-      <span class="modal-close" id="modal-close-btn">&times;</span>
-      <div class="modal-body">
-        <div class="modal-image-container">
-          <img src="" id="modal-img" alt="Project Image">
+        <div class="modal-overlay" id="project-modal">
+            <div class="modal-content">
+                <span class="modal-close" id="modal-close-btn">&times;</span>
+                <div class="modal-body">
+                    <div class="modal-image-container">
+                        <img src="" id="modal-img" alt="Project Image">
+                    </div>
+                    <div class="modal-text-container">
+                        <h3 id="modal-title"></h3>
+                        <div id="modal-stack"></div>
+                        <ul id="modal-bullets"></ul>
+                        <div class="links">
+                            <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer">View code on Github</a>
+                            <a id="modal-live-link" href="#" target="_blank" rel="noopener noreferrer">Live Site</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-text-container">
-          <h3 id="modal-title"></h3>
-          <div id="modal-stack"></div>
-          <ul id="modal-bullets"></ul>
-          <div class="links">
-            <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer">View code on Github</a>
-            <a id="modal-live-link" href="#" target="_blank" rel="noopener noreferrer">Live Site</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <script type="application/json" id="profile-data">
-  {
+        <script type="application/json" id="profile-data">
+            {
       "full_name": "Ashwin Raja Shanmuga Raja",
       "tagline": "Data Scientist | ML/DL Enthusiast | AI Software Engineer",
       "bio": [
@@ -488,335 +490,377 @@
         "resume_pdf_url": "https://drive.google.com/file/d/158-bO60jWNkjfa1zPfEiH-B5Kb1G3w-f/view?usp=sharing"
       }
     }
-  </script>
+        </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-  <script>
-    // ---------- Helper utilities ----------
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => document.querySelectorAll(sel);
-    const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+        <script>
+            // ---------- Helper utilities ----------
+            const $ = sel => document.querySelector(sel);
+            const $$ = sel => document.querySelectorAll(sel);
+            const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-    const data = JSON.parse($('#profile-data').textContent);
-    const main = document.querySelector('main');
-    const nav  = document.querySelector('nav');
+            const data = JSON.parse($('#profile-data').textContent);
+            const main = document.querySelector('main');
+            const nav  = document.querySelector('nav');
 
-    /** Build navigation & sections array */
-    const sections = [
-      { id: 'about',      label: 'whoami' },
-      { id: 'skills',     label: 'cat ~/.skills' },
-      { id: 'experience', label: 'history | grep work' },
-      { id: 'projects',   label: 'cd projects/' },
-      { id: 'education',  label: 'nvim education.md' },
-      { id: 'contact',    label: 'ping me@domain.com' }
-    ];
-    
-    const navLinks = document.createElement('div');
-    navLinks.className = 'nav-links';
-    const navSocials = document.createElement('div');
-    navSocials.id = 'nav-socials';
-    nav.append(navLinks, navSocials);
+            /** Build navigation & sections array */
+                const sections = [
+                    { id: 'about',      label: 'whoami' },
+                    { id: 'skills',     label: 'cat ~/.skills' },
+                    { id: 'experience', label: 'history | grep work' },
+                    { id: 'projects',   label: 'cd projects/' },
+                    { id: 'education',  label: 'nvim education.md' },
+                    { id: 'contact',    label: 'ping me@domain.com' }
+                ];
 
-    for (const {id, label} of sections) {
-      const a = document.createElement('a');
-      a.href = `#${id}`;
-      a.textContent = `$ ${label}`;
-      navLinks.appendChild(a);
+            const navLinks = document.createElement('div');
+            navLinks.className = 'nav-links';
+            const navSocials = document.createElement('div');
+            navSocials.id = 'nav-socials';
+            nav.append(navLinks, navSocials);
 
-      const sec = document.createElement('section');
-      sec.id = id;
-      sec.className = 'fade';
-      const headerLabel = document.createElement('div');
-      headerLabel.className = 'label';
-      headerLabel.textContent = `$ ${label}`;
-      const h2 = document.createElement('h2');
-      h2.textContent = capitalize(id);
-      sec.append(headerLabel, h2);
-      main.appendChild(sec);
-    }
+            for (const {id, label} of sections) {
+                const a = document.createElement('a');
+                a.href = `#${id}`;
+                a.textContent = `$ ${label}`;
+                navLinks.appendChild(a);
 
-    // ---------- Populate About ----------
-    const aboutSection = $('#about');
-    aboutSection.querySelector('h2').remove();
-    const nameEl = document.createElement('h1');
-    nameEl.id = 'name-typed';
-    nameEl.style.fontSize = '2.5rem';
-    aboutSection.prepend(nameEl);
-    new Typed('#name-typed', { strings: [data.full_name], typeSpeed: 42, showCursor: true, cursorChar: '_' });
-
-    const tagline = document.createElement('p');
-    tagline.textContent = data.tagline;
-    aboutSection.appendChild(tagline);
-
-    data.bio.forEach(para => {
-        const p = document.createElement('p');
-        p.textContent = para;
-        aboutSection.appendChild(p);
-    });
-
-    // ---------- Populate Experience ----------
-    const expSec = $('#experience');
-    const expGrid = document.createElement('div');
-    expGrid.id = 'experience-grid';
-    expSec.appendChild(expGrid);
-
-    data.jobs.forEach(job => {
-        const card = document.createElement('div');
-        card.className = 'experience-card';
-        card.innerHTML = `
-            <div class="card-header">
-              <h3>${job.title}</h3>
-              <p class="company-info">${job.company} | <em>${job.start_date} – ${job.end_date}</em></p>
-            </div>
-            <ul>
-                ${job.bullets.map(b => `<li>${b}</li>`).join('')}
-            </ul>
-        `;
-        expGrid.appendChild(card);
-    });
-
-    const experienceObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const cards = $$('#experience-grid .experience-card');
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('visible');
-                    }, index * 200);
-                });
-                observer.unobserve(expSec);
+                const sec = document.createElement('section');
+                sec.id = id;
+                sec.className = 'fade';
+                const headerLabel = document.createElement('div');
+                headerLabel.className = 'label';
+                headerLabel.textContent = `$ ${label}`;
+                const h2 = document.createElement('h2');
+                h2.textContent = capitalize(id);
+                sec.append(headerLabel, h2);
+                main.appendChild(sec);
             }
-        });
-    }, { threshold: 0.1 });
-    experienceObserver.observe(expSec);
 
+            // ---------- Populate About ----------
+            const aboutSection = $('#about');
+            aboutSection.querySelector('h2').remove();
+            const nameEl = document.createElement('h1');
+            nameEl.id = 'name-typed';
+            nameEl.style.fontSize = '2.5rem';
+            aboutSection.prepend(nameEl);
+            new Typed('#name-typed', { strings: [data.full_name], typeSpeed: 42, showCursor: true, cursorChar: '_' });
 
-    // ---------- Populate Projects ----------
-    const projGrid = document.createElement('div');
-    projGrid.id = 'projects-grid';
-    $('#projects').appendChild(projGrid);
-    const projects = data.projects;
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(ent => ent.isIntersecting && ent.target.classList.add('visible'));
-    }, { threshold: .15 });
+            const tagline = document.createElement('p');
+            tagline.textContent = data.tagline;
+            aboutSection.appendChild(tagline);
 
-    if (isMobile) {
-      projGrid.style.display = 'grid';
-      projGrid.style.gridTemplateColumns = '1fr';
-      projGrid.style.gap = '1rem';
-
-      projects.forEach(project => {
-        const card = document.createElement('div');
-        card.className = 'card fade';
-        card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
-        card.addEventListener('click', () => openModal(project));
-        projGrid.appendChild(card);
-        io.observe(card);
-      });
-
-    } else {
-      const VIRTUAL_GRID_SIZE = 128;
-      projGrid.style.display = 'grid';
-      projGrid.style.gridTemplateColumns = `repeat(${VIRTUAL_GRID_SIZE}, 1fr)`;
-      projGrid.style.gridTemplateRows = `repeat(${VIRTUAL_GRID_SIZE}, 1fr)`;
-      let tiles = [];
-
-      const addProjectCard = (project, index) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.style.transition = 'grid-column 0.25s ease, grid-row 0.25s ease, opacity 0.25s ease';
-        card.style.opacity = '0';
-        card.style.margin = '0.5rem';
-        card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
-        projGrid.appendChild(card);
-        card.addEventListener('click', () => openModal(project));
-
-        let newTile;
-        if (index === 0) {
-            newTile = { el: card, x: 0, y: 0, width: VIRTUAL_GRID_SIZE, height: VIRTUAL_GRID_SIZE };
-        } else {
-            let largestTile = tiles.reduce((a, b) => (a.width * a.height > b.width * b.height) ? a : b);
-            const splitVertical = largestTile.width >= largestTile.height;
-            if (splitVertical) {
-                largestTile.width /= 2;
-                newTile = { el: card, x: largestTile.x + largestTile.width, y: largestTile.y, width: largestTile.width, height: largestTile.height };
-            } else {
-                largestTile.height /= 2;
-                newTile = { el: card, x: largestTile.x, y: largestTile.y + largestTile.height, width: largestTile.width, height: largestTile.height };
-            }
-        }
-        tiles.push(newTile);
-        tiles.forEach(tile => {
-            tile.el.style.gridColumn = `${tile.x + 1} / span ${tile.width}`;
-            tile.el.style.gridRow = `${tile.y + 1} / span ${tile.height}`;
-        });
-        setTimeout(() => card.style.opacity = '1', 50);
-      };
-
-      const projectSection = $('#projects');
-      const projectObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            projects.forEach((p, i) => {
-              setTimeout(() => addProjectCard(p, i), i * 350);
+            data.bio.forEach(para => {
+                const p = document.createElement('p');
+                p.textContent = para;
+                aboutSection.appendChild(p);
             });
-            observer.unobserve(projectSection);
-          }
-        });
-      }, { threshold: 0.25 });
-      projectObserver.observe(projectSection);
-    }
-    
-    // ---------- Modal Logic ----------
-    const modal = $('#project-modal');
-    const openModal = (project) => {
-      $('#modal-img').src = project.image_url;
-      $('#modal-title').textContent = project.name;
-      
-      const stackContainer = $('#modal-stack');
-      stackContainer.innerHTML = '';
-      project.stack.forEach(tech => {
-        const tag = document.createElement('span');
-        tag.className = 'tag medium';
-        tag.textContent = tech;
-        stackContainer.appendChild(tag);
-      });
-      
-      const bulletsList = $('#modal-bullets');
-      bulletsList.innerHTML = '';
-      project.bullets.forEach(bullet => {
-        const li = document.createElement('li');
-        li.textContent = bullet;
-        bulletsList.appendChild(li);
-      });
-      
-      $('#modal-repo-link').href = project.repo_url;
-      const liveLink = $('#modal-live-link');
-      if (project.live_url) {
-        liveLink.href = project.live_url;
-        liveLink.style.display = 'inline-block';
-      } else {
-        liveLink.style.display = 'none';
-      }
-      modal.classList.add('active');
-    };
-    
-    const closeModal = () => modal.classList.remove('active');
-    $('#modal-close-btn').addEventListener('click', closeModal);
-    modal.addEventListener('click', e => e.target === modal && closeModal());
-    document.addEventListener('keydown', e => e.key === 'Escape' && closeModal());
 
-    // ---------- Populate Skills, Education, Contact ----------
-    const skillsSec = $('#skills');
-    const skillCats = Object.entries(data.skills);
-    skillCats.forEach(([cat, arr]) => {
-      const div = document.createElement('div');
-      div.innerHTML = `<strong>${cat}:</strong> `;
-      arr.forEach((s, idx) => {
-        const span = document.createElement('span');
-        span.className = 'tag ' + (idx < 2 ? 'strong' : 'medium');
-        span.textContent = s;
-        div.appendChild(span);
-      });
-      skillsSec.appendChild(div);
-    });
+            // ---------- Populate Experience ----------
+            const expSec = $('#experience');
+            const expGrid = document.createElement('div');
+            expGrid.id = 'experience-grid';
+            expSec.appendChild(expGrid);
 
-    const eduSec = $('#education');
-    const eduGrid = document.createElement('div');
-    eduGrid.id = 'education-grid';
-    eduSec.appendChild(eduGrid);
+            data.jobs.forEach(job => {
+                const card = document.createElement('div');
+                card.className = 'experience-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                    <h3>${job.title}</h3>
+                    <p class="company-info">${job.company} | <em>${job.start_date} – ${job.end_date}</em></p>
+                    </div>
+                    <ul>
+                    ${job.bullets.map(b => `<li>${b}</li>`).join('')}
+                    </ul>
+                    `;
+                expGrid.appendChild(card);
+            });
 
-    data.schools.forEach(school => {
-        const card = document.createElement('div');
-        card.className = 'education-card';
-        card.innerHTML = `
-            <h3>${school.degree} in ${school.field}</h3>
-            <p class="school-info">${school.institution} | Graduated ${school.grad_year}</p>
-            <p><strong>GPA:</strong> ${school.gpa}</p>
-            <div>
-                <p class="coursework-title">Relevant Coursework:</p>
-                <div>
-                    ${school.subjects.map(subject => `<span class="tag">${subject}</span>`).join(' ')}
-                </div>
-            </div>
-        `;
-        eduGrid.appendChild(card);
-    });
-
-    const educationObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const cards = $$('#education-grid .education-card');
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('visible');
-                    }, index * 200);
+            const experienceObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const cards = $$('#experience-grid .experience-card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.classList.add('visible');
+                            }, index * 200);
+                        });
+                        observer.unobserve(expSec);
+                    }
                 });
-                observer.unobserve(eduSec);
+            }, { threshold: 0.1 });
+            experienceObserver.observe(expSec);
+
+
+            // ---------- Populate Projects ----------
+            const projGrid = document.createElement('div');
+            projGrid.id = 'projects-grid';
+            $('#projects').appendChild(projGrid);
+            const projects = data.projects;
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+            const io = new IntersectionObserver(entries => {
+                entries.forEach(ent => ent.isIntersecting && ent.target.classList.add('visible'));
+            }, { threshold: .15 });
+
+            if (isMobile) {
+                projGrid.style.display = 'grid';
+                projGrid.style.gridTemplateColumns = '1fr';
+                projGrid.style.gap = '1rem';
+
+                projects.forEach(project => {
+                    const card = document.createElement('div');
+                    card.className = 'card fade';
+                    card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
+                    card.addEventListener('click', () => openModal(project));
+                    projGrid.appendChild(card);
+                    io.observe(card);
+                });
+
+            } else {
+
+                const tiles = [];
+
+                const layoutProjects = () => {
+                  const gridWidth = projGrid.clientWidth;
+                  const gridHeight = projGrid.clientHeight;
+                  const gap = 0.01; // 1% gap
+
+                  tiles.forEach(tile => {
+                    const el = tile.el;
+                    const px = val => `${val * 100}%`;
+                    const py = val => `${val * 100}%`;
+
+                    el.style.left = px(tile.x + (tile.x > 0 ? gap / 2 : 0));
+                    el.style.top = py(tile.y + (tile.y > 0 ? gap / 2 : 0));
+                    el.style.width = px(tile.width - (tile.x > 0 && tile.x + tile.width < 1 ? gap : (tile.x > 0 || tile.x + tile.width < 1 ? gap/2 : 0) ));
+                    el.style.height = py(tile.height - (tile.y > 0 && tile.y + tile.height < 1 ? gap : (tile.y > 0 || tile.y + tile.height < 1 ? gap/2 : 0) ));
+                  });
+                };
+
+                const addProjectCard = (project, index) => {
+                  const card = document.createElement('div');
+                  card.className = 'card';
+                  card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
+                  card.addEventListener('click', () => openModal(project));
+                  projGrid.appendChild(card);
+
+                  let newTile;
+
+                  if (tiles.length === 0) {
+                    // First card takes entire space
+                    newTile = { el: card, x: 0, y: 0, width: 1, height: 1 };
+                  } else {
+                    // Step 1: Find the largest tile (last match wins)
+                    let maxArea = -1;
+                    let largestTileIndex = -1;
+
+                    tiles.forEach((tile, i) => {
+                      const area = tile.width * tile.height;
+                      if (area >= maxArea) {
+                        maxArea = area;
+                        largestTileIndex = i;
+                      }
+                    });
+
+                    // Step 2: Split the tile
+                    const target = tiles[largestTileIndex];
+                    const splitVertically = target.width >= target.height;
+
+                    if (splitVertically) {
+                      target.width /= 2;
+                      newTile = {
+                        el: card,
+                        x: target.x + target.width,
+                        y: target.y,
+                        width: target.width,
+                        height: target.height,
+                      };
+                    } else {
+                      target.height /= 2;
+                      newTile = {
+                        el: card,
+                        x: target.x,
+                        y: target.y + target.height,
+                        width: target.width,
+                        height: target.height,
+                      };
+                    }
+
+                    tiles[largestTileIndex] = target;
+                  }
+
+                  tiles.push(newTile);
+                  layoutProjects();
+
+                  // Animate fade-in
+                  setTimeout(() => {
+                    card.style.opacity = '1';
+                  }, 50);
+                };
+                const projectSection = $('#projects');
+                const projectObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            projects.forEach((p, i) => {
+                                setTimeout(() => addProjectCard(p, i), i * 350);
+                            });
+                            observer.unobserve(projectSection);
+                        }
+                    });
+                }, { threshold: 0.25 });
+                projectObserver.observe(projectSection);
             }
-        });
-    }, { threshold: 0.1 });
-    educationObserver.observe(eduSec);
+
+            // ---------- Modal Logic ----------
+            const modal = $('#project-modal');
+            const openModal = (project) => {
+                $('#modal-img').src = project.image_url;
+                $('#modal-title').textContent = project.name;
+
+                const stackContainer = $('#modal-stack');
+                stackContainer.innerHTML = '';
+                project.stack.forEach(tech => {
+                    const tag = document.createElement('span');
+                    tag.className = 'tag medium';
+                    tag.textContent = tech;
+                    stackContainer.appendChild(tag);
+                });
+
+                const bulletsList = $('#modal-bullets');
+                bulletsList.innerHTML = '';
+                project.bullets.forEach(bullet => {
+                    const li = document.createElement('li');
+                    li.textContent = bullet;
+                    bulletsList.appendChild(li);
+                });
+
+                $('#modal-repo-link').href = project.repo_url;
+                const liveLink = $('#modal-live-link');
+                if (project.live_url) {
+                    liveLink.href = project.live_url;
+                    liveLink.style.display = 'inline-block';
+                } else {
+                    liveLink.style.display = 'none';
+                }
+                modal.classList.add('active');
+            };
+
+            const closeModal = () => modal.classList.remove('active');
+            $('#modal-close-btn').addEventListener('click', closeModal);
+            modal.addEventListener('click', e => e.target === modal && closeModal());
+            document.addEventListener('keydown', e => e.key === 'Escape' && closeModal());
+
+            // ---------- Populate Skills, Education, Contact ----------
+            const skillsSec = $('#skills');
+            const skillCats = Object.entries(data.skills);
+            skillCats.forEach(([cat, arr]) => {
+                const div = document.createElement('div');
+                div.innerHTML = `<strong>${cat}:</strong> `;
+                arr.forEach((s, idx) => {
+                    const span = document.createElement('span');
+                    span.className = 'tag ' + (idx < 2 ? 'strong' : 'medium');
+                    span.textContent = s;
+                    div.appendChild(span);
+                });
+                skillsSec.appendChild(div);
+            });
+
+            const eduSec = $('#education');
+            const eduGrid = document.createElement('div');
+            eduGrid.id = 'education-grid';
+            eduSec.appendChild(eduGrid);
+
+            data.schools.forEach(school => {
+                const card = document.createElement('div');
+                card.className = 'education-card';
+                card.innerHTML = `
+                    <h3>${school.degree} in ${school.field}</h3>
+                    <p class="school-info">${school.institution} | Graduated ${school.grad_year}</p>
+                    <p><strong>GPA:</strong> ${school.gpa}</p>
+                    <div>
+                    <p class="coursework-title">Relevant Coursework:</p>
+                    <div>
+                    ${school.subjects.map(subject => `<span class="tag">${subject}</span>`).join(' ')}
+                    </div>
+                    </div>
+                    `;
+                eduGrid.appendChild(card);
+            });
+
+            const educationObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const cards = $$('#education-grid .education-card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.classList.add('visible');
+                            }, index * 200);
+                        });
+                        observer.unobserve(eduSec);
+                    }
+                });
+            }, { threshold: 0.1 });
+            educationObserver.observe(eduSec);
 
 
-    // ---------- Populate Contact & Nav Socials ----------
-    const c = data.contact;
-    const contactSec = $('#contact');
-    const introParagraph = document.createElement('p');
-    introParagraph.textContent = "Thanks for visiting my portfolio! I’m always excited to connect with people who share a passion for technology, AI, or building meaningful products. Whether you have an opportunity, want to collaborate, or just want to say hello — feel free to reach out. I’m happy to chat about projects, ideas, or anything tech!";
-    introParagraph.style.marginBottom = '2rem';
-    contactSec.appendChild(introParagraph);
-    const linksContainer = document.createElement('div');
-    linksContainer.innerHTML = `<p>Email: <a href="mailto:${c.email}" id="email-link">${c.email}</a></p><p><a href="${c.linkedin_url}" target="_blank">LinkedIn</a> • <a href="${c.github_url}" target="_blank">GitHub</a></p>${c.resume_pdf_url ? `<p><a href="${c.resume_pdf_url}" target="_blank">Download Résumé ↗</a></p>` : ''}`;
-    contactSec.appendChild(linksContainer);
-    
-    navSocials.innerHTML = `
-        <a href="mailto:${c.email}" title="Email">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M1.75 3h20.5c.966 0 1.75.784 1.75 1.75v14.5A1.75 1.75 0 0 1 22.25 21H1.75A1.75 1.75 0 0 1 0 19.25V4.75C0 3.784.784 3 1.75 3ZM1.5 4.75v.273l10.27 7.336a.75.75 0 0 0 .46.164h0a.75.T75 0 0 0 .46-.164L22.5 5.023V4.75a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Zm21 1.42-9.102 6.501a2.25 2.25 0 0 1-2.796 0L1.5 6.17v13.08c0 .138.112.25.25.25h20.5a.25.25 0 0 0 .25-.25V6.17Z"/></svg>
-        </a>
-        <a href="${c.github_url}" target="_blank" title="GitHub">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0 0 22 12c0-5.523-4.477-10-10-10Z" clip-rule="evenodd"/></svg>
-        </a>
-        <a href="${c.linkedin_url}" target="_blank" title="LinkedIn">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.75 3H4.25A1.25 1.25 0 0 0 3 4.25v15.5A1.25 1.25 0 0 0 4.25 21h15.5A1.25 1.25 0 0 0 21 19.75V4.25A1.25 1.25 0 0 0 19.75 3ZM8.25 18.5h-3v-9h3v9ZM6.75 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM18.5 18.5h-3V14c0-1.1-.02-2.5-1.5-2.5s-1.73 1.19-1.73 2.42V18.5h-3v-9h2.88v1.31h.04c.4-.76 1.38-1.55 2.84-1.55 3.04 0 3.6 2 3.6 4.6v5.14Z"/></svg>
-        </a>
-    `;
+            // ---------- Populate Contact & Nav Socials ----------
+            const c = data.contact;
+            const contactSec = $('#contact');
+            const introParagraph = document.createElement('p');
+            introParagraph.textContent = "Thanks for visiting my portfolio! I’m always excited to connect with people who share a passion for technology, AI, or building meaningful products. Whether you have an opportunity, want to collaborate, or just want to say hello — feel free to reach out. I’m happy to chat about projects, ideas, or anything tech!";
+            introParagraph.style.marginBottom = '2rem';
+            contactSec.appendChild(introParagraph);
+            const linksContainer = document.createElement('div');
+            linksContainer.innerHTML = `<p>Email: <a href="mailto:${c.email}" id="email-link">${c.email}</a></p><p><a href="${c.linkedin_url}" target="_blank">LinkedIn</a> • <a href="${c.github_url}" target="_blank">GitHub</a></p>${c.resume_pdf_url ? `<p><a href="${c.resume_pdf_url}" target="_blank">Download Résumé ↗</a></p>` : ''}`;
+            contactSec.appendChild(linksContainer);
 
-    // ---------- Event Listeners ----------
-    $('#email-link').addEventListener('click', e => {
-      e.preventDefault();
-      navigator.clipboard.writeText(c.email).then(() => {
-        const old = e.target.textContent;
-        e.target.textContent = 'copied ✔';
-        setTimeout(() => (e.target.textContent = old), 1500);
-      });
-    });
-    
-    // Apply smooth scrolling ONLY to nav links, not social icons
-    $$('.nav-links a').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href');
-        $(targetId).scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
+            navSocials.innerHTML = `
+                <a href="mailto:${c.email}" title="Email">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M1.75 3h20.5c.966 0 1.75.784 1.75 1.75v14.5A1.75 1.75 0 0 1 22.25 21H1.75A1.75 1.75 0 0 1 0 19.25V4.75C0 3.784.784 3 1.75 3ZM1.5 4.75v.273l10.27 7.336a.75.75 0 0 0 .46.164h0a.75.T75 0 0 0 .46-.164L22.5 5.023V4.75a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Zm21 1.42-9.102 6.501a2.25 2.25 0 0 1-2.796 0L1.5 6.17v13.08c0 .138.112.25.25.25h20.5a.25.25 0 0 0 .25-.25V6.17Z"/></svg>
+                </a>
+                <a href="${c.github_url}" target="_blank" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0 0 22 12c0-5.523-4.477-10-10-10Z" clip-rule="evenodd"/></svg>
+                </a>
+                <a href="${c.linkedin_url}" target="_blank" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.75 3H4.25A1.25 1.25 0 0 0 3 4.25v15.5A1.25 1.25 0 0 0 4.25 21h15.5A1.25 1.25 0 0 0 21 19.75V4.25A1.25 1.25 0 0 0 19.75 3ZM8.25 18.5h-3v-9h3v9ZM6.75 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM18.5 18.5h-3V14c0-1.1-.02-2.5-1.5-2.5s-1.73 1.19-1.73 2.42V18.5h-3v-9h2.88v1.31h.04c.4-.76 1.38-1.55 2.84-1.55 3.04 0 3.6 2 3.6 4.6v5.14Z"/></svg>
+                </a>
+                `;
 
-    // ---------- Intersection Observers ----------
-    $$('.fade').forEach(el => io.observe(el));
+            // ---------- Event Listeners ----------
+            $('#email-link').addEventListener('click', e => {
+                e.preventDefault();
+                navigator.clipboard.writeText(c.email).then(() => {
+                    const old = e.target.textContent;
+                    e.target.textContent = 'copied ✔';
+                    setTimeout(() => (e.target.textContent = old), 1500);
+                });
+            });
 
-    const spy = new IntersectionObserver(entries => {
-      entries.forEach(ent => {
-        if (ent.isIntersecting) {
-            const link = nav.querySelector(`a[href="#${ent.target.id}"]`);
-            $$('nav a').forEach(a => a.classList.remove('active'));
-            if(link) link.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-50% 0px -50% 0px' });
-    sections.forEach(({id}) => spy.observe($('#' + id)));
+            // Apply smooth scrolling ONLY to nav links, not social icons
+            $$('.nav-links a').forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    $(targetId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
 
-  </script>
-</body>
+            // ---------- Intersection Observers ----------
+            $$('.fade').forEach(el => io.observe(el));
+
+            const spy = new IntersectionObserver(entries => {
+                entries.forEach(ent => {
+                    if (ent.isIntersecting) {
+                        const link = nav.querySelector(`a[href="#${ent.target.id}"]`);
+                        $$('nav a').forEach(a => a.classList.remove('active'));
+                        if(link) link.classList.add('active');
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
+            sections.forEach(({id}) => spy.observe($('#' + id)));
+
+        </script>
+    </body>
 </html>
