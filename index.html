@@ -143,11 +143,12 @@ body {
         position: relative;
         width: 100%;
         height: 80vh; /* or set this dynamically in JS */
+        /* padding is set dynamically via JS to keep outer spacing equal to inner gap */
     }
 
     .card {
         position: absolute;
-        transition: all 0.6s ease-in-out;
+        transition: all 0.3s ease-in-out;
         background: var(--bg-hl);
         border: 1px solid var(--accent2);
         display: flex;
@@ -622,82 +623,76 @@ body {
 
                 const tiles = [];
 
+                // Consistent spacing: use a fixed pixel gap between tiles and outer edges
+                const GAP_PX = 16; // spacing between tiles and container edges
+                const PADDING_PX = GAP_PX / 2; // container padding so outer spacing equals inner gap
+                projGrid.style.padding = `${PADDING_PX}px`;
+
                 const layoutProjects = () => {
-                  const gridWidth = projGrid.clientWidth;
-                  const gridHeight = projGrid.clientHeight;
-                  const gap = 0.01; // 1% gap
+                  const innerWidth = projGrid.clientWidth - (PADDING_PX * 2);
+                  const innerHeight = projGrid.clientHeight - (PADDING_PX * 2);
 
                   tiles.forEach(tile => {
                     const el = tile.el;
-                    const px = val => `${val * 100}%`;
-                    const py = val => `${val * 100}%`;
+                    const left = Math.round(tile.x * innerWidth) + (GAP_PX / 2);
+                    const top = Math.round(tile.y * innerHeight) + (GAP_PX / 2);
+                    const width = Math.round(tile.width * innerWidth) - GAP_PX;
+                    const height = Math.round(tile.height * innerHeight) - GAP_PX;
 
-                    el.style.left = px(tile.x + (tile.x > 0 ? gap / 2 : 0));
-                    el.style.top = py(tile.y + (tile.y > 0 ? gap / 2 : 0));
-                    el.style.width = px(tile.width - (tile.x > 0 && tile.x + tile.width < 1 ? gap : (tile.x > 0 || tile.x + tile.width < 1 ? gap/2 : 0) ));
-                    el.style.height = py(tile.height - (tile.y > 0 && tile.y + tile.height < 1 ? gap : (tile.y > 0 || tile.y + tile.height < 1 ? gap/2 : 0) ));
+                    el.style.left = `${left}px`;
+                    el.style.top = `${top}px`;
+                    el.style.width = `${Math.max(0, width)}px`;
+                    el.style.height = `${Math.max(0, height)}px`;
                   });
                 };
 
+                const TRANSITION_MS = 300;
                 const addProjectCard = (project, index) => {
                   const card = document.createElement('div');
                   card.className = 'card';
                   card.innerHTML = `<div><strong>${project.name}</strong><br/><small>${project.year}</small></div>`;
                   card.addEventListener('click', () => openModal(project));
-                  projGrid.appendChild(card);
-
-                  let newTile;
 
                   if (tiles.length === 0) {
                     // First card takes entire space
-                    newTile = { el: card, x: 0, y: 0, width: 1, height: 1 };
-                  } else {
-                    // Step 1: Find the largest tile (last match wins)
-                    let maxArea = -1;
-                    let largestTileIndex = -1;
-
-                    tiles.forEach((tile, i) => {
-                      const area = tile.width * tile.height;
-                      if (area >= maxArea) {
-                        maxArea = area;
-                        largestTileIndex = i;
-                      }
-                    });
-
-                    // Step 2: Split the tile
-                    const target = tiles[largestTileIndex];
-                    const splitVertically = target.width >= target.height;
-
-                    if (splitVertically) {
-                      target.width /= 2;
-                      newTile = {
-                        el: card,
-                        x: target.x + target.width,
-                        y: target.y,
-                        width: target.width,
-                        height: target.height,
-                      };
-                    } else {
-                      target.height /= 2;
-                      newTile = {
-                        el: card,
-                        x: target.x,
-                        y: target.y + target.height,
-                        width: target.width,
-                        height: target.height,
-                      };
-                    }
-
-                    tiles[largestTileIndex] = target;
+                    projGrid.appendChild(card);
+                    const newTile = { el: card, x: 0, y: 0, width: 1, height: 1 };
+                    tiles.push(newTile);
+                    layoutProjects();
+                    requestAnimationFrame(() => { card.style.opacity = '1'; });
+                    return;
                   }
 
-                  tiles.push(newTile);
+                  // Find the largest tile to split
+                  let maxArea = -1;
+                  let largestTileIndex = -1;
+                  tiles.forEach((tile, i) => {
+                    const area = tile.width * tile.height;
+                    if (area >= maxArea) { maxArea = area; largestTileIndex = i; }
+                  });
+
+                  const target = tiles[largestTileIndex];
+                  const original = { x: target.x, y: target.y, width: target.width, height: target.height };
+                  const splitVertically = original.width >= original.height;
+
+                  // Phase 1: shrink target to make space
+                  if (splitVertically) {
+                    target.width = original.width / 2;
+                  } else {
+                    target.height = original.height / 2;
+                  }
                   layoutProjects();
 
-                  // Animate fade-in
+                  // Phase 2: after transition, add the new card into the freed space and fade it in
                   setTimeout(() => {
-                    card.style.opacity = '1';
-                  }, 50);
+                    projGrid.appendChild(card);
+                    const newTile = splitVertically
+                      ? { el: card, x: original.x + original.width / 2, y: original.y, width: original.width / 2, height: original.height }
+                      : { el: card, x: original.x, y: original.y + original.height / 2, width: original.width, height: original.height / 2 };
+                    tiles.push(newTile);
+                    layoutProjects();
+                    requestAnimationFrame(() => { card.style.opacity = '1'; });
+                  }, TRANSITION_MS + 50);
                 };
                 const projectSection = $('#projects');
                 const projectObserver = new IntersectionObserver((entries, observer) => {
